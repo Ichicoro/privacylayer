@@ -38,3 +38,11 @@ captures/
 
 # Keystore files
 *.jks
+.gitignore
+build.gradle
+libs/
+proguard-rules.pro
+src/androidTest/
+src/main/AndroidManifest.xml
+src/main/res/
+src/test/
