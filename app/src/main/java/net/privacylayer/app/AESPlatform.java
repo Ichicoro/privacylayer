@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Arrays;
-import java.util.Base64;
+import android.util.Base64;
 import java.util.Random;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -121,7 +121,7 @@ class AESMessage {
 
     @Override
     public String toString() {
-        return new String(Base64.getEncoder().encode(content)) + ":"
-                + new String(Base64.getEncoder().encode(nonce));
+        return new String(Base64.encode(content, Base64.DEFAULT)) + ":"
+                + new String(Base64.encode(nonce, Base64.DEFAULT));
     }
 }
