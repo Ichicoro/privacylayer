@@ -28,7 +28,7 @@ public class AESPlatform {
             NoSuchAlgorithmException,
             NoSuchProviderException,
             NoSuchPaddingException {
-        init(DEFAULT_AES_KEY_SIZE);
+        this(DEFAULT_AES_KEY_SIZE);
     }
 
     public AESPlatform(int aesKeySize) throws
@@ -113,10 +113,10 @@ class AESMessage {
         nonce = in_nonce;
     }
 
-    public AESMessage(String input) {
+    public AESMessage(String input) throws UnsupportedEncodingException {
         String[] parts = input.split(":");
-        content = parts[0];
-        nonce = parts[1];
+        content = parts[0].getBytes("UTF-8");
+        nonce = parts[1].getBytes("UTF-8");
     }
 
     @Override
