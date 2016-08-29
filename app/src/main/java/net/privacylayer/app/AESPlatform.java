@@ -97,7 +97,7 @@ public class AESPlatform {
     // Example implementation
     private static void example() throws Exception {
         final AESPlatform t = new AESPlatform();
-        AESMessage encrypted = t.encrypt("We Ichi!", ":3");
+        AESMessage encrypted = t.encrypt("We Ichi!", ":3");     // We 
         System.out.println(encrypted.toString());
         String decrypted = t.decrypt(encrypted, ":3");
         System.out.println(decrypted);
