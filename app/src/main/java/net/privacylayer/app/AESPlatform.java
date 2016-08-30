@@ -3,19 +3,14 @@ package net.privacylayer.app;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AESPlatform {
@@ -25,25 +20,11 @@ public class AESPlatform {
     public static final int GCM_NONCE_LENGTH = 12; // in bytes
     public static final int GCM_TAG_LENGTH = 16; // in bytes
 
-    public static AESMessage encrypt(String inputString, String key) throws
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException,
-            UnsupportedEncodingException,
-            NoSuchAlgorithmException,
-            NoSuchPaddingException {
+    public static AESMessage encrypt(String inputString, String key) throws Exception {
         return encrypt(inputString, key, DEFAULT_AES_KEY_SIZE);
     }
 
-    public static AESMessage encrypt(String inputString, String keyString, int keySize) throws
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException,
-            UnsupportedEncodingException,
-            NoSuchAlgorithmException,
-            NoSuchPaddingException {
+    public static AESMessage encrypt(String inputString, String keyString, int keySize) throws Exception {
         byte[] input = inputString.getBytes("UTF-8");
         final byte[] nonce = new byte[GCM_NONCE_LENGTH];
         Random random = new Random();
@@ -53,50 +34,30 @@ public class AESPlatform {
         return new AESMessage(encrypted, nonce);
     }
 
-    public static String decrypt(AESMessage message, String keyString) throws
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException,
-            UnsupportedEncodingException,
-            NoSuchAlgorithmException,
-            NoSuchPaddingException {
+    public static String decrypt(AESMessage message, String keyString) throws Exception {
         return decrypt(message, keyString, DEFAULT_AES_KEY_SIZE);
     }
 
-    public static String decrypt(AESMessage message, String keyString, int keySize) throws
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException,
-            UnsupportedEncodingException,
-            NoSuchAlgorithmException,
-            NoSuchPaddingException {
+    public static String decrypt(AESMessage message, String keyString, int keySize) throws Exception {
         byte[] decrypted = operate(Cipher.DECRYPT_MODE, message.content, keyString, keySize, message.nonce);
         return new String(decrypted, "UTF-8");
     }
 
     private static byte[] operate(int mode, byte[] input, String keyString, int keySize, byte[] nonce)
-            throws UnsupportedEncodingException,
-            NoSuchAlgorithmException,
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException, NoSuchPaddingException {
+            throws Exception {
 
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(keySize);
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
 
         byte[] key = keyString.getBytes("UTF-8");
 
         MessageDigest sha = MessageDigest.getInstance("SHA-1");
         key = sha.digest(key);
         key = Arrays.copyOf(key, 16); // use only first 128 bit
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        Key AESkey = new SecretKeySpec(key, "AES");
 
-        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, nonce);
-        cipher.init(mode, secretKeySpec, spec);
+        cipher.init(mode, AESkey, new IvParameterSpec(nonce));
 
 /*
         Todo: add any additional authenticated data
