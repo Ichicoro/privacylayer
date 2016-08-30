@@ -25,7 +25,7 @@ public class AESPlatform {
         return encrypt(inputString, key, DEFAULT_AES_KEY_SIZE);
     }
 
-    public static AESMessage encrypt(@NonNull String inputString, @NonNull String keyString, @NonNull int keySize) throws Exception {
+    public static AESMessage encrypt(@NonNull String inputString, @NonNull String keyString, int keySize) throws Exception {
         byte[] input = inputString.getBytes("UTF-8");
         final byte[] nonce = new byte[GCM_NONCE_LENGTH];
         Random random = new Random();
@@ -39,7 +39,7 @@ public class AESPlatform {
         return decrypt(message, keyString, DEFAULT_AES_KEY_SIZE);
     }
 
-    public static String decrypt(@NonNull AESMessage message, @NonNull String keyString, @NonNull int keySize) throws Exception {
+    public static String decrypt(@NonNull AESMessage message, @NonNull String keyString, int keySize) throws Exception {
         byte[] decrypted = operate(Cipher.DECRYPT_MODE, message.content, keyString, keySize, message.nonce);
         return new String(decrypted, "UTF-8");
     }
@@ -90,6 +90,8 @@ class AESMessage {
 
     public AESMessage(@NonNull String input) throws UnsupportedEncodingException {
         String[] parts = input.split(":");
+        if (parts.length != 2)
+            throw new IllegalArgumentException("Input isn't a properly formatted AES message.");
         content = Base64.decode(parts[0].getBytes("UTF-8"), Base64.DEFAULT);
         nonce = Base64.decode(parts[1].getBytes("UTF-8"), Base64.DEFAULT);
     }
