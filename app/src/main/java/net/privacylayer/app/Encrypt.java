@@ -1,35 +1,20 @@
 package net.privacylayer.app;
 
 import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.content.ClipboardManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class Encrypt extends AppCompatActivity {
 
     public static final String TAG = "PrivacyLayer/Encrypt";
 
     public String encKey = "huehuehue";                                                             // Todo: implement custom keying
-
-
-
-    public String text;
 
     public CharSequence encText = "GG";
     public boolean showToastOnEnc = true;
@@ -63,7 +48,7 @@ public class Encrypt extends AppCompatActivity {
 
         Intent intent = getIntent();
         String action = intent.getAction();
-        String text = "<error>";
+        String text;
 
         /* if (Intent.EXTRA_PROCESS_TEXT.equals(action) && intent.getType() != null) */             // todo remove this completely
 
