@@ -3,7 +3,9 @@ package net.privacylayer.app;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.ClipboardManager;
@@ -23,7 +25,7 @@ public class Encrypt extends AppCompatActivity {
 
     public static final String TAG = "PrivacyLayer/Encrypt";
 
-    public String ENCKEY = "huehuehue";                                                             // Todo: implement custom keying
+    public String encKey = "huehuehue";                                                             // Todo: implement custom keying
 
 
 
@@ -38,9 +40,16 @@ public class Encrypt extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
         ClipData clip;
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);        // clipboard is the new clipboard :3
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        showToastOnEnc = sharedPrefs.getBoolean("show_toast_on_enc", true);
+        saveOldToClip = sharedPrefs.getBoolean("save_old_to_clip", true);
+        encKey = sharedPrefs.getString("encryption_key", "huehuehue");
 
 
 
@@ -75,7 +84,7 @@ public class Encrypt extends AppCompatActivity {
 
 
         try {
-            encText = AESPlatform.encrypt(text, ENCKEY).toString();
+            encText = AESPlatform.encrypt(text, encKey).toString();
             Log.i(TAG, "Encrypted to "+encText);
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,17 +3,19 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
+    <string name="action_settings">Settings</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
+    <string name="pref_title_save_old_to_clip">Save original text to clipboard</string>
+    <string name="pref_description_save_old_to_clip">This only works when using the Marshmallow menu</string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_title_show_toast_on_enc">Show toast when encoding/decoding is successful</string>
+    <string name="pref_description_show_toast_on_enc">This can get a bit spammy c:</string>
+
+    <string name="pref_title_encryption_key">Encryption Key</string>
+    <string name="pref_default_encryption_key">defkey</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
@@ -26,6 +28,9 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
+
+
+
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
@@ -49,6 +54,9 @@
     </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
+
+
+
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
