@@ -11,11 +11,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.UnsupportedEncodingException;
+
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String TAG = "PrivacyLayer/MainAct";
+
+    public int mode = 0;    // 0 = encrypt   -   1 = decrypt
+
+    public Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
+        final Switch workMode = (Switch) findViewById(R.id.modeswitch);
 
-        final Button button = (Button) findViewById(R.id.actionButton);
+        workMode.setOnCheckedChangeListener(this);
+
+        button = (Button) findViewById(R.id.actionButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                editText.setText(encryptBoxText(inputBox.getText().toString()));
+                if (mode == 0) {
+                    editText.setText(encryptBoxText(inputBox.getText().toString()));
+                } else {
+                    editText.setText(decryptBoxText(inputBox.getText().toString()));
+                }
             }
         });
 
@@ -80,5 +96,32 @@ public class MainActivity extends AppCompatActivity {
         return encText;
     }
 
+    public String decryptBoxText(String text) {
+        String encText = null;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        //AESMessage AESMsg = new AESMessage("cc");
+        String encKey = sharedPrefs.getString("encryption_key", "huehuehue");
 
+        //AESMessage(text);
+
+        try {
+            //encText = AESPlatform.decrypt(AESMsg, encKey);
+            Log.i(TAG, "Decrypted to " + encText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return encText;
+    }
+
+
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+            mode = 1;
+            button.setText("Decrypt");
+        } else {
+            mode = 0;
+            button.setText("Encrypt");
+        }
+    }
 }
