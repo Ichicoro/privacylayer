@@ -1,10 +1,17 @@
 package net.privacylayer.app;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +25,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String TAG = "PrivacyLayer/MainAct";
+    public static final int STATUS_NOTIFICATION_ID = 0;
 
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
 
@@ -30,10 +38,56 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
+
+        Intent intent = getIntent();
+        Boolean fromNotification = intent.getBooleanExtra("fromNotification", false);
+        Log.i(TAG, "Did the user come from a notification? " + fromNotification.toString());
+        if (fromNotification) {
+            /* If the user came here clicking a notification, attempt to load the clipboard contents
+             * in the input box.
+             */
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipData clipData = clipboard.getPrimaryClip();
+            if (clipData != null) {
+                ClipData.Item item = clipData.getItemAt(0);
+                CharSequence text = item.getText();
+                if (text != null) {
+                    inputBox.setText(text);
+                    /*
+                    if (the text is a valid AES message)
+                        setDecryptionMode();
+                    else
+                        setEncryptionMode();
+                    */
+                }
+            }
+        }
+
         final Switch workMode = (Switch) findViewById(R.id.modeswitch);
 
         workMode.setOnCheckedChangeListener(this);
 
+        // Create a permanent notification.
+        if (true) { // TODO: replace this with a config variable
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Notification.Builder notification = new Notification.Builder(this)
+                    .setContentTitle("PrivacyLayer menu")
+                    .setContentText("Click here to go to PrivacyLayer.")
+                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                    .setOngoing(true);
+            // Copy-pasted from the Android docs:
+            // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
+            Intent selfIntent = new Intent(this, MainActivity.class);
+            selfIntent.putExtra("fromNotification", true);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(MainActivity.class);
+            stackBuilder.addNextIntent(selfIntent);
+            PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.setContentIntent(selfPendingIntent);
+            notificationManager.notify(STATUS_NOTIFICATION_ID, notification.build());
+        }
+
+        // Encrypt/decrypt button
         button = (Button) findViewById(R.id.actionButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -98,14 +152,20 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         return AESPlatform.decrypt(aesMessage, encKey);
     }
 
-
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            mode = 1;
-            button.setText("Decrypt");
-        } else {
-            mode = 0;
-            button.setText("Encrypt");
-        }
+        if (isChecked)
+            setDecryptionMode();
+        else
+            setEncryptionMode();
+    }
+
+    public void setEncryptionMode() {
+        mode = 0;
+        button.setText("Encrypt");
+    }
+
+    public void setDecryptionMode() {
+        mode = 1;
+        button.setText("Decrypt");
     }
 }
