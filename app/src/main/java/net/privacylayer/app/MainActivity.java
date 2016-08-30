@@ -98,14 +98,17 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     public String decryptBoxText(String text) {
         String encText = null;
+        AESMessage AESMsg = null;
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        //AESMessage AESMsg = new AESMessage("cc");
+        try {
+            AESMsg = new AESMessage(text);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String encKey = sharedPrefs.getString("encryption_key", "huehuehue");
 
-        //AESMessage(text);
-
         try {
-            //encText = AESPlatform.decrypt(AESMsg, encKey);
+            encText = AESPlatform.decrypt(AESMsg, encKey);
             Log.i(TAG, "Decrypted to " + encText);
         } catch (Exception e) {
             e.printStackTrace();
