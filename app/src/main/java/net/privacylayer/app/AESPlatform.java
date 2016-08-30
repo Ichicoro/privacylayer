@@ -89,8 +89,8 @@ class AESMessage {
 
     public AESMessage(String input) throws UnsupportedEncodingException {
         String[] parts = input.split(":");
-        content = parts[0].getBytes("UTF-8");
-        nonce = parts[1].getBytes("UTF-8");
+        content = Base64.decode(parts[0].getBytes("UTF-8"), Base64.DEFAULT);
+        nonce = Base64.decode(parts[1].getBytes("UTF-8"), Base64.DEFAULT);
     }
 
     @Override
