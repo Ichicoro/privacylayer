@@ -22,9 +22,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.privacylayer.app.MainActivity" />
         </activity>
-        <activity android:name=".Encrypt">
+        <activity
+            android:name=".Encrypt"
+            android:label="Encrypt">
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
