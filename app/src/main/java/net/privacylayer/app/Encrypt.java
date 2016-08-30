@@ -20,7 +20,7 @@ public class Encrypt extends AppCompatActivity {
     public boolean showToastOnEnc = true;
     public boolean saveOldToClip = false;
     public boolean readonly = false;
-    public boolean newMode;
+    public boolean oldMode;
 
 
     @Override
@@ -39,7 +39,7 @@ public class Encrypt extends AppCompatActivity {
 
 
         Context context = getApplicationContext();
-        CharSequence toastText = "Hello toast!";
+        CharSequence toastText = "Text Encrypted!";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, toastText, duration);
@@ -55,13 +55,15 @@ public class Encrypt extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action) && intent.getType() != null) {
             text = getIntent()
                     .getStringExtra(Intent.EXTRA_TEXT);
-            newMode = true;
+            Log.i(TAG, "Intent was EXTRA_TEXT");
+            oldMode = true;
         } else {
             text = getIntent()
                     .getStringExtra(Intent.EXTRA_PROCESS_TEXT);                                     // grabbin' the text!
             readonly = getIntent()
                     .getBooleanExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, false);
-            newMode = false;
+            oldMode = false;
+            Log.i(TAG, "Intent was EXTRA_PROCESS_TEXT/READONLY:" + readonly);
             Log.i(TAG, "Captured: " + text);
         }
 
@@ -76,7 +78,7 @@ public class Encrypt extends AppCompatActivity {
         }
 
 
-        if (newMode) {
+        if (!oldMode) {
             if (readonly) {
                 clip = ClipData.newPlainText("label", encText);                                         // the clipboard now has the encrypted text inside of it
                 clipboard.setPrimaryClip(clip);
