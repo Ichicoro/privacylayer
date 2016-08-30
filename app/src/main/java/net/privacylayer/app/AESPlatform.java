@@ -96,7 +96,7 @@ class AESMessage {
 
     @Override
     public String toString() {
-        return new String(Base64.encode(content, Base64.DEFAULT)) + ":"
-                + new String(Base64.encode(nonce, Base64.DEFAULT));
+        return new String(Base64.encode(content, Base64.NO_WRAP)) + ":"
+                + new String(Base64.encode(nonce, Base64.NO_WRAP));
     }
 }
