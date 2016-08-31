@@ -10,50 +10,59 @@
     tools:context="net.privacylayer.app.MainActivity">
 
     <EditText
+        android:id="@+id/inputBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/inputBox"
-        android:layout_below="@+id/modeswitch"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/modeswitch"
         android:layout_toStartOf="@+id/actionButton"
         android:maxHeight="500dp" />
 
     <Switch
+        android:id="@+id/modeswitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encrypt  &lt;->  Decrypt"
-        android:id="@+id/modeswitch"
-        android:checked="false"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/actionButton" />
+        android:layout_below="@+id/keychainSpinner"
+        android:checked="false"
+        android:text="Encrypt  &lt;->  Decrypt" />
 
     <Button
+        android:id="@+id/actionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encrypt"
-        android:id="@+id/actionButton"
-        android:layout_alignTop="@+id/inputBox"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/inputBox" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/modeswitch"
+        android:text="Encrypt" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:maxHeight="500px"
-        android:layout_below="@+id/inputBox"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/shareButton" />
+        android:layout_below="@+id/actionButton"
+        android:layout_toStartOf="@+id/shareButton"
+        android:maxHeight="500px" />
 
     <Button
+        android:id="@+id/shareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SHARE"
-        android:id="@+id/shareButton"
         android:layout_alignBottom="@+id/editText"
+        android:layout_alignTop="@+id/editText"
         android:layout_toEndOf="@+id/inputBox"
-        android:layout_alignTop="@+id/editText" />
+        android:text="SHARE" />
+
+    <Spinner
+        android:id="@+id/keychainSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/actionButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:spinnerMode="dropdown" />
 
 
 </RelativeLayout>

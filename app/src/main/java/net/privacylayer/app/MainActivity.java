@@ -16,28 +16,60 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String TAG = "PrivacyLayer/MainAct";
     public static final int STATUS_NOTIFICATION_ID = 0;
+
     public boolean showPermanentNotification;
-
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
-
     public Button actionButton;
     public Button shareButton;
+    private String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        final HashMap<String, String> defaultKeys = new HashMap<>(1);
+        defaultKeys.put("Default key", "defkey");
+        Set<String> keyNamesSet = sharedPrefs.getStringSet("keyNames", defaultKeys.keySet());
+        String[] keyNamesArray = keyNamesSet.toArray(new String[keyNamesSet.size()]);
+        Set<String> keyValuesSet = sharedPrefs.getStringSet("keyValues", new HashSet<>(defaultKeys.values()));
+        String[] keyValuesArray = keyValuesSet.toArray(new String[keyValuesSet.size()]);
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
+        Spinner spinner = (Spinner) findViewById(R.id.keychainSpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String thisKeyName = parent.getItemAtPosition(position).toString();
+                key = defaultKeys.get(thisKeyName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
@@ -155,18 +187,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
 
     public String encryptBoxText(String text) throws Exception {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String encKey = sharedPrefs.getString("encryption_key", "huehuehue");
-
-        return AESPlatform.encrypt(text, encKey).toString();
+        return AESPlatform.encrypt(text, key).toString();
     }
 
     public String decryptBoxText(String text) throws Exception {
-        AESMessage aesMessage = new AESMessage(text);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String encKey = sharedPrefs.getString("encryption_key", "huehuehue");
-
-        return AESPlatform.decrypt(aesMessage, encKey);
+        return AESPlatform.decrypt(new AESMessage(text), key);
     }
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
