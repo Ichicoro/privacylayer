@@ -63,7 +63,7 @@ public class Encrypt extends AppCompatActivity {
             readonly = getIntent()
                     .getBooleanExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, false);
             oldMode = false;
-            Log.i(TAG, "Intent was EXTRA_PROCESS_TEXT/READONLY:" + readonly);
+            Log.i(TAG, "Intent was EXTRA_PROCESS_TEXT / READONLY:" + readonly);
             Log.i(TAG, "Captured: " + text);
         }
 

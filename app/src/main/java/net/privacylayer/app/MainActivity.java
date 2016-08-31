@@ -26,15 +26,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     public static final String TAG = "PrivacyLayer/MainAct";
     public static final int STATUS_NOTIFICATION_ID = 0;
+    public boolean showPermanentNotification;
 
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
 
-    public Button button;
+    public Button actionButton;
+    public Button shareButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
@@ -67,11 +70,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         workMode.setOnCheckedChangeListener(this);
 
+        showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
+
         // Create a permanent notification.
-        if (true) { // TODO: replace this with a config variable
+        if (showPermanentNotification) { // done :D
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             Notification.Builder notification = new Notification.Builder(this)
-                    .setContentTitle("PrivacyLayer menu")
+                    .setContentTitle("PrivacyLayer")
                     .setContentText("Click here to go to PrivacyLayer.")
                     .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                     .setOngoing(true);
@@ -88,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
 
         // Encrypt/decrypt button
-        button = (Button) findViewById(R.id.actionButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        actionButton = (Button) findViewById(R.id.actionButton);
+        actionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
                     if (mode == 0) {
@@ -102,6 +107,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 } catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        // Encrypt/decrypt button
+        shareButton = (Button) findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, editText.getText());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Share with..."));
             }
         });
 
@@ -161,11 +178,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     public void setEncryptionMode() {
         mode = 0;
-        button.setText("Encrypt");
+        actionButton.setText("Encrypt");
     }
 
     public void setDecryptionMode() {
         mode = 1;
-        button.setText("Decrypt");
+        actionButton.setText("Decrypt");
     }
 }
