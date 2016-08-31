@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,8 +27,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        final HashMap<String, String> defaultKeys = new HashMap<>(1);
+        SharedPreferences keyValues = getApplicationContext()
+                .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
+
+        final HashMap<String, String> defaultKeys = new HashMap<>(1 + keyValues.getAll().size());
         defaultKeys.put("Default key", "defkey");
-        Set<String> keyNamesSet = sharedPrefs.getStringSet("keyNames", defaultKeys.keySet());
-        String[] keyNamesArray = keyNamesSet.toArray(new String[keyNamesSet.size()]);
-        Set<String> keyValuesSet = sharedPrefs.getStringSet("keyValues", new HashSet<>(defaultKeys.values()));
-        String[] keyValuesArray = keyValuesSet.toArray(new String[keyValuesSet.size()]);
+        defaultKeys.putAll((Map<String, String>) keyValues.getAll());
+        String[] keyNamesArray = defaultKeys.keySet().toArray(new String[defaultKeys.size()]);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
                 android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
