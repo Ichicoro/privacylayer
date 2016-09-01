@@ -127,7 +127,7 @@ class DiffieHellman {
     // Based on https://gist.github.com/zcdziura/7652286
     public static byte[] iv = new SecureRandom().generateSeed(16);
 
-    public static void test() {
+    public static void test() throws Exception {
         String plainText = "Look mah, I'm a message!";
         Log.i("We/We", "Original plaintext message: " + plainText);
 
@@ -219,18 +219,12 @@ class DiffieHellman {
     }
 
     public static SecretKey generateSharedSecret(PrivateKey privateKey,
-                                                 PublicKey publicKey) {
-        try {
-            KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
-            keyAgreement.init(privateKey);
-            keyAgreement.doPhase(publicKey, true);
+                                                 PublicKey publicKey) throws Exception {
+        KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
+        keyAgreement.init(privateKey);
+        keyAgreement.doPhase(publicKey, true);
 
-            return keyAgreement.generateSecret("AES");
-        } catch (InvalidKeyException | NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
+        return keyAgreement.generateSecret("AES");
     }
 
     public static String encryptString(SecretKey key, String plainText) {

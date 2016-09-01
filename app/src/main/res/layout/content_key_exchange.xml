@@ -37,4 +37,43 @@
         android:layout_alignParentStart="true"
         android:text="Your public key"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textPubkey"
+        android:layout_marginTop="58dp"
+        android:text="Import a key"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/buttonImportPubKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignEnd="@+id/buttonSharePubKey"
+        android:text="Import" />
+
+    <EditText
+        android:id="@+id/textImportedKeyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/buttonImportPubKey"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/buttonImportPubKey"
+        android:hint="Key name"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/textImportedKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textImportedKeyName"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textImportedKeyName"
+        android:ems="10"
+        android:hint="Key"
+        android:inputType="textMultiLine" />
 </RelativeLayout>
