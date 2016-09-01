@@ -39,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public Button actionButton;
     public Button shareButton;
     public Button addToKeystoreButton;
+    public Spinner spinner;
     private String key;
+    private HashMap<String, String> keysMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,28 +49,23 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-
-
         /* keystore */
+
+        spinner = (Spinner) findViewById(R.id.keychainSpinner);
 
         final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
 
-        final HashMap<String, String> defaultKeys = new HashMap<>(1 + keyValues.getAll().size());
-        defaultKeys.put("Default key", "defkey");
-        defaultKeys.putAll((Map<String, String>) keyValues.getAll());
-        String[] keyNamesArray = defaultKeys.keySet().toArray(new String[defaultKeys.size()]);
+        keysMap = new HashMap<>(1 + keyValues.getAll().size());
+        keysMap.put("Default key", "defkey");
+        keysMap.putAll((Map<String, String>) keyValues.getAll());
 
-        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
-                android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
-        final Spinner spinner = (Spinner) findViewById(R.id.keychainSpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        updateSpinner();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String thisKeyName = parent.getItemAtPosition(position).toString();
-                key = defaultKeys.get(thisKeyName);
+                key = keysMap.get(thisKeyName);
             }
 
             @Override
@@ -83,18 +80,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
         addToKeystoreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                defaultKeys.put(newItemNameBox.toString(), newItemKeyBox.toString());
-                defaultKeys.putAll((Map<String, String>) keyValues.getAll());
-                String[] keyNamesArray = defaultKeys.keySet().toArray(new String[defaultKeys.size()]);
-                spinner.setAdapter(adapter);
+                String name = newItemNameBox.getText().toString();
+                String key = newItemKeyBox.getText().toString();
+                // Add the key to shared preferences.
+                keyValues.edit().putString(name, key).apply();
+                keysMap.put(name, key);
+                updateSpinner();
             }
         });
-
-
-        /* keystore */
-
-
-
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
@@ -152,9 +145,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             notificationManager.notify(STATUS_NOTIFICATION_ID, notification.build());
         }
 
-
-
-
         // Encrypt/decrypt button
         actionButton = (Button) findViewById(R.id.actionButton);
         actionButton.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         });
 
-        // Encrypt/decrypt button
+        // Share button
         shareButton = (Button) findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -184,8 +174,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 startActivity(Intent.createChooser(sendIntent, "Share with..."));
             }
         });
-
-
     }
 
     @Override
@@ -206,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -240,5 +227,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void setDecryptionMode() {
         mode = 1;
         actionButton.setText("Decrypt");
+    }
+
+    public void updateSpinner() {
+        String[] keyNamesArray = keysMap.keySet().toArray(new String[keysMap.size()]);
+
+        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 }

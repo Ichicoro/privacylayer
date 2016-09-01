@@ -22,21 +22,22 @@
         android:id="@+id/modeswitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="Encrypt  &lt;->  Decrypt"
-        android:layout_below="@+id/keychainSpinner"
+        android:layout_alignEnd="@+id/actionButton"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/actionButton" />
+        android:layout_below="@+id/keychainSpinner"
+        android:layout_toStartOf="@+id/actionButton"
+        android:checked="false"
+        android:text="Encrypt  &lt;->  Decrypt" />
 
     <Button
         android:id="@+id/actionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/inputBox"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/modeswitch"
-        android:text="Encrypt"
-        android:layout_alignBottom="@+id/inputBox" />
+        android:text="Encrypt" />
 
     <EditText
         android:id="@+id/editText"
@@ -67,33 +68,33 @@
         android:spinnerMode="dropdown" />
 
     <Button
+        android:id="@+id/addToKeystoreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to keystore"
-        android:id="@+id/addToKeystoreButton"
-        android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/shareButton"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Add to keystore" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/addToKeystoreButton"
         android:layout_alignParentStart="false"
+        android:orientation="horizontal"
         android:weightSum="1">
 
         <EditText
+            android:id="@+id/newItemNameBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/newItemNameBox"
             android:layout_weight="0.50"
             android:hint="Name" />
 
         <EditText
+            android:id="@+id/newItemKeyBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/newItemKeyBox"
             android:layout_weight="0.50"
             android:hint="Encryption key" />
     </LinearLayout>
