@@ -22,10 +22,11 @@
         android:id="@+id/modeswitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/keychainSpinner"
         android:checked="false"
-        android:text="Encrypt  &lt;->  Decrypt" />
+        android:text="Encrypt  &lt;->  Decrypt"
+        android:layout_below="@+id/keychainSpinner"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/actionButton" />
 
     <Button
         android:id="@+id/actionButton"
@@ -34,7 +35,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/modeswitch"
-        android:text="Encrypt" />
+        android:text="Encrypt"
+        android:layout_alignBottom="@+id/inputBox" />
 
     <EditText
         android:id="@+id/editText"
@@ -63,6 +65,38 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:spinnerMode="dropdown" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to keystore"
+        android:id="@+id/addToKeystoreButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/shareButton"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addToKeystoreButton"
+        android:layout_alignParentStart="false"
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newItemNameBox"
+            android:layout_weight="0.50"
+            android:hint="Name" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newItemKeyBox"
+            android:layout_weight="0.50"
+            android:hint="Encryption key" />
+    </LinearLayout>
 
 
 </RelativeLayout>

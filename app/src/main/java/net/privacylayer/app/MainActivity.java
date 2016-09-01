@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
     public Button actionButton;
     public Button shareButton;
+    public Button addToKeystoreButton;
     private String key;
 
     @Override
@@ -46,7 +47,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        SharedPreferences keyValues = getApplicationContext()
+
+
+        /* keystore */
+
+        final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
 
         final HashMap<String, String> defaultKeys = new HashMap<>(1 + keyValues.getAll().size());
@@ -54,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         defaultKeys.putAll((Map<String, String>) keyValues.getAll());
         String[] keyNamesArray = defaultKeys.keySet().toArray(new String[defaultKeys.size()]);
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
+        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
                 android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
-        Spinner spinner = (Spinner) findViewById(R.id.keychainSpinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.keychainSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -71,6 +76,25 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
             }
         });
+
+        final EditText newItemNameBox = (EditText) findViewById(R.id.newItemNameBox);
+        final EditText newItemKeyBox = (EditText) findViewById(R.id.newItemKeyBox);
+
+        addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
+        addToKeystoreButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                defaultKeys.put(newItemNameBox.toString(), newItemKeyBox.toString());
+                defaultKeys.putAll((Map<String, String>) keyValues.getAll());
+                String[] keyNamesArray = defaultKeys.keySet().toArray(new String[defaultKeys.size()]);
+                spinner.setAdapter(adapter);
+            }
+        });
+
+
+        /* keystore */
+
+
+
 
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
@@ -105,25 +129,31 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
 
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder notification = new Notification.Builder(this)
+                .setContentTitle("PrivacyLayer")
+                .setContentText("Click here to go to PrivacyLayer.")
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setOngoing(true);
+        // Copy-pasted from the Android docs:
+        // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
+        Intent selfIntent = new Intent(this, MainActivity.class);
+        selfIntent.putExtra("fromNotification", true);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(selfIntent);
+        PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.setContentIntent(selfPendingIntent);
+
         // Create a permanent notification.
-        if (showPermanentNotification) { // done :D
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            Notification.Builder notification = new Notification.Builder(this)
-                    .setContentTitle("PrivacyLayer")
-                    .setContentText("Click here to go to PrivacyLayer.")
-                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                    .setOngoing(true);
-            // Copy-pasted from the Android docs:
-            // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
-            Intent selfIntent = new Intent(this, MainActivity.class);
-            selfIntent.putExtra("fromNotification", true);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(selfIntent);
-            PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            notification.setContentIntent(selfPendingIntent);
+        if (showPermanentNotification) {
             notificationManager.notify(STATUS_NOTIFICATION_ID, notification.build());
         }
+
+
+
 
         // Encrypt/decrypt button
         actionButton = (Button) findViewById(R.id.actionButton);
