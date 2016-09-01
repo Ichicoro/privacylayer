@@ -31,14 +31,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    public static final String TAG = "PrivacyLayer/MainAct";
     public static final int STATUS_NOTIFICATION_ID = 0;
-
-    public boolean showPermanentNotification;
+    private static final String TAG = "PrivacyLayer/MainAct";
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
     public Button actionButton;
-    public Button shareButton;
-    public Button addToKeystoreButton;
     public Spinner spinner;
     private String key;
     private HashMap<String, String> keysMap;
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         final EditText newItemNameBox = (EditText) findViewById(R.id.newItemNameBox);
         final EditText newItemKeyBox = (EditText) findViewById(R.id.newItemKeyBox);
 
-        addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
+        Button addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
         addToKeystoreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String name = newItemNameBox.getText().toString();
@@ -120,9 +116,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         workMode.setOnCheckedChangeListener(this);
 
-        showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
-
-
+        boolean showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder notification = new Notification.Builder(this)
@@ -164,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         });
 
         // Share button
-        shareButton = (Button) findViewById(R.id.shareButton);
+        Button shareButton = (Button) findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
