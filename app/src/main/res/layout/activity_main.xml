@@ -99,5 +99,14 @@
             android:hint="Encryption key" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/buttonManageKeys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/shareButton"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText"
+        android:text="Manage keys" />
+
 
 </RelativeLayout>

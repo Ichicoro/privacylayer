@@ -32,7 +32,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final int STATUS_NOTIFICATION_ID = 0;
-    private static final String TAG = "PrivacyLayer/MainAct";
+    public static final String TAG = "PrivacyLayer/MainAct";
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
     public Button actionButton;
     public Spinner spinner;
@@ -166,6 +166,15 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 sendIntent.putExtra(Intent.EXTRA_TEXT, editText.getText());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "Share with..."));
+            }
+        });
+
+        Button buttonManageKeys = (Button) findViewById(R.id.buttonManageKeys);
+        buttonManageKeys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), KeyExchange.class);
+                startActivity(intent);
             }
         });
     }
