@@ -53,8 +53,8 @@ public class KeyExchange extends AppCompatActivity {
             }
         });
 
-        Button importButton = (Button) findViewById(R.id.buttonImportPubKey);
-        importButton.setOnClickListener(new View.OnClickListener() {
+        Button importPubKeyButton = (Button) findViewById(R.id.buttonImportPubKey);
+        importPubKeyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText importedKeyNameText = (EditText) findViewById(R.id.textImportedKeyName);
                 String importedKeyName = importedKeyNameText.getText().toString();
@@ -63,7 +63,7 @@ public class KeyExchange extends AppCompatActivity {
                     return;
                 }
 
-                EditText importedKeyText = (EditText) findViewById(R.id.textImportedKey);
+                EditText importedKeyText = (EditText) findViewById(R.id.textAddedPassword);
                 String importedKeyString = importedKeyText.getText().toString();
                 if (importedKeyString.equals("")) {
                     Toast.makeText(KeyExchange.this, "You must supply a key.", Toast.LENGTH_SHORT).show();
@@ -84,6 +84,30 @@ public class KeyExchange extends AppCompatActivity {
                 } catch (Exception e) {
                     Toast.makeText(KeyExchange.this, "This shouldn't happen!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        Button addPasswordButton = (Button) findViewById(R.id.buttonAddPassword);
+        addPasswordButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText addedPasswordNameText = (EditText) findViewById(R.id.textAddedPasswordName);
+                String addedPasswordName = addedPasswordNameText.getText().toString();
+                if (addedPasswordName.equals("")) {
+                    Toast.makeText(KeyExchange.this, "You must supply a key name.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                EditText addedPasswordText = (EditText) findViewById(R.id.textAddedPassword);
+                String addedPasswordString = addedPasswordText.getText().toString();
+                if (addedPasswordString.equals("")) {
+                    Toast.makeText(KeyExchange.this, "You must supply a password.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                getApplicationContext()
+                        .getSharedPreferences("KeyStore", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString(addedPasswordName, addedPasswordString)
+                        .apply();
             }
         });
     }

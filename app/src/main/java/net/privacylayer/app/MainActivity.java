@@ -18,24 +18,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity {
 
-    public static final int STATUS_NOTIFICATION_ID = 0;
     public static final String TAG = "PrivacyLayer/MainAct";
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
-    public Button actionButton;
+    public Button encryptionButton;
+    public Button decryptionButton;
     public Spinner spinner;
     public SharedPreferences sharedPrefs;
-    public Switch workMode;
     private String key;
     private HashMap<String, String> keysMap;
 
@@ -44,16 +41,12 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Declare all interface items here to prevent null pointer exs.
-        actionButton = (Button) findViewById(R.id.actionButton);
+        encryptionButton = (Button) findViewById(R.id.encryptButton);
+        decryptionButton = (Button) findViewById(R.id.decryptButton);
         spinner = (Spinner) findViewById(R.id.keychainSpinner);
-        final EditText newItemNameBox = (EditText) findViewById(R.id.newItemNameBox);
-        final EditText newItemKeyBox = (EditText) findViewById(R.id.newItemKeyBox);
-        Button addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
-        workMode = (Switch) findViewById(R.id.modeswitch);
         Button shareButton = (Button) findViewById(R.id.shareButton);
-        Button buttonManageKeys = (Button) findViewById(R.id.buttonManageKeys);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -79,14 +72,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-
-        addToKeystoreButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String name = newItemNameBox.getText().toString();
-                String key = newItemKeyBox.getText().toString();
-                addKey(name, key);
             }
         });
 
@@ -121,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         }
 
-        workMode.setOnCheckedChangeListener(this);
-
         boolean showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
 
         if (showPermanentNotification) {
@@ -143,14 +126,21 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
 
         // Encrypt/decrypt button
-        actionButton.setOnClickListener(new View.OnClickListener() {
+        encryptionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    if (mode == 0) {
-                        editText.setText(encryptBoxText(inputBox.getText().toString()));
-                    } else {
-                        editText.setText(decryptBoxText(inputBox.getText().toString()));
-                    }
+                    editText.setText(encryptBoxText(inputBox.getText().toString()));
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        decryptionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    editText.setText(decryptBoxText(inputBox.getText().toString()));
                 } catch (IllegalArgumentException e) {
                     Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
@@ -169,14 +159,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 startActivity(Intent.createChooser(sendIntent, "Share with..."));
             }
         });
-
-        buttonManageKeys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), KeyExchange.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -190,20 +172,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                openSettings();
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
-
+            case R.id.action_keys:
+                Intent keysIntent = new Intent(MainActivity.this, KeyExchange.class);
+                startActivity(keysIntent);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-
-    public void openSettings() {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
     }
 
 
@@ -215,23 +195,12 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         return AESPlatform.decrypt(new AESMessage(text), key);
     }
 
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked)
-            setDecryptionMode();
-        else
-            setEncryptionMode();
-    }
-
     public void setEncryptionMode() {
         mode = 0;
-        actionButton.setText("Encrypt");
-        workMode.setChecked(false);
     }
 
     public void setDecryptionMode() {
         mode = 1;
-        actionButton.setText("Decrypt");
-        workMode.setChecked(true);
     }
 
     public void updateSpinner() {
@@ -241,17 +210,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-    }
-
-    // Add a key to the shared preferences
-    public void addKey(String name, String key) {
-        getApplicationContext()
-                .getSharedPreferences("KeyStore", Context.MODE_PRIVATE)
-                .edit()
-                .putString(name, key)
-                .apply();
-        keysMap.put(name, key);
-        updateSpinner();
     }
 
     public void setCurrentKey(String key) {

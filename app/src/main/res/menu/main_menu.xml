@@ -8,7 +8,12 @@
         android:title="@string/action_favorite"
         app:showAsAction="ifRoom"/> -->
 
-    <!-- Settings, should always be in the overflow -->
+    <item
+        android:id="@+id/action_keys"
+        android:title="Manage keys"
+        app:showAsAction="ifRoom" />
+
+    <!-- Should always be in the overflow. Why? Dunno. -->
     <item android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_white_24px"
         android:title="@string/action_settings"
