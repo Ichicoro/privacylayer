@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public int mode = 0;    // 0 = encrypt   -   1 = decrypt
     public Button actionButton;
     public Spinner spinner;
+    public SharedPreferences sharedPrefs;
     private String key;
     private HashMap<String, String> keysMap;
 
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
 
         /* keystore */
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
+
 
         keysMap = new HashMap<>(1 + keyValues.getAll().size());
         keysMap.put("Default key", "defkey");
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String thisKeyName = parent.getItemAtPosition(position).toString();
                 key = keysMap.get(thisKeyName);
+                setCurrentKey(key);
             }
 
             @Override
@@ -78,10 +83,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             public void onClick(View v) {
                 String name = newItemNameBox.getText().toString();
                 String key = newItemKeyBox.getText().toString();
-                // Add the key to shared preferences.
-                keyValues.edit().putString(name, key).apply();
-                keysMap.put(name, key);
-                updateSpinner();
+                addKey(name, key);
             }
         });
 
@@ -239,5 +241,24 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 android.R.layout.simple_spinner_dropdown_item, keyNamesArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+
+    // Add a key to the shared preferences
+    public void addKey(String name, String key) {
+        getApplicationContext()
+                .getSharedPreferences("KeyStore", Context.MODE_PRIVATE)
+                .edit()
+                .putString(name, key)
+                .apply();
+        keysMap.put(name, key);
+        updateSpinner();
+    }
+
+    public void setCurrentKey(String key) {
+        sharedPrefs
+                .edit()
+                .putString("encryption_key", key)
+                .apply();
+        Log.i(TAG, "Current key is now " + key);
     }
 }
