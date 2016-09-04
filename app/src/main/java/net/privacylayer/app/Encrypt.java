@@ -16,7 +16,7 @@ public class Encrypt extends AppCompatActivity {
 
     public String encKey = "huehuehue";                                                             // Todo: implement custom keying
 
-    public CharSequence encText = "GG";
+    public CharSequence encText;
     public boolean showToastOnEnc = true;
     public boolean saveOldToClip = false;
     public boolean readonly = false;
