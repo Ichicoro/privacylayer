@@ -1,7 +1,5 @@
 package net.privacylayer.app;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.ClipData;
@@ -37,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public Button actionButton;
     public Spinner spinner;
     public SharedPreferences sharedPrefs;
+    public Switch workMode;
     private String key;
     private HashMap<String, String> keysMap;
 
@@ -44,13 +43,21 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Declare all interface items here to prevent null pointer exs.
+        actionButton = (Button) findViewById(R.id.actionButton);
+        spinner = (Spinner) findViewById(R.id.keychainSpinner);
+        final EditText newItemNameBox = (EditText) findViewById(R.id.newItemNameBox);
+        final EditText newItemKeyBox = (EditText) findViewById(R.id.newItemKeyBox);
+        Button addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
+        final EditText editText = (EditText) findViewById(R.id.editText);
+        final EditText inputBox = (EditText) findViewById(R.id.inputBox);
+        workMode = (Switch) findViewById(R.id.modeswitch);
+        Button shareButton = (Button) findViewById(R.id.shareButton);
+        Button buttonManageKeys = (Button) findViewById(R.id.buttonManageKeys);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-
         /* keystore */
-
-        spinner = (Spinner) findViewById(R.id.keychainSpinner);
 
         final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
@@ -75,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         });
 
-        final EditText newItemNameBox = (EditText) findViewById(R.id.newItemNameBox);
-        final EditText newItemKeyBox = (EditText) findViewById(R.id.newItemKeyBox);
-
-        Button addToKeystoreButton = (Button) findViewById(R.id.addToKeystoreButton);
         addToKeystoreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String name = newItemNameBox.getText().toString();
@@ -86,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 addKey(name, key);
             }
         });
-
-        final EditText editText = (EditText) findViewById(R.id.editText);
-        final EditText inputBox = (EditText) findViewById(R.id.inputBox);
 
         Intent intent = getIntent();
         Boolean fromNotification = intent.getBooleanExtra("fromNotification", false);
@@ -104,8 +104,15 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 CharSequence text = item.getText();
                 if (text != null) {
                     inputBox.setText(text);
+                    String type = intent.getStringExtra("type");
+                    // TODO: use constants from MainActivity
+                    Log.i(TAG, "Notification type is: " + type);
+                    if (type.equals("encryption"))
+                        setEncryptionMode();
+                    else if (type.equals("decryption"))
+                        setDecryptionMode();
                     /*
-                    if (the text is a valid AES message)
+                    else if (the text is a valid AES message)
                         setDecryptionMode();
                     else
                         setEncryptionMode();
@@ -114,35 +121,28 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         }
 
-        final Switch workMode = (Switch) findViewById(R.id.modeswitch);
-
         workMode.setOnCheckedChangeListener(this);
 
         boolean showPermanentNotification = sharedPrefs.getBoolean("enable_persistent_notification", false);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification.Builder notification = new Notification.Builder(this)
-                .setContentTitle("PrivacyLayer")
-                .setContentText("Click here to go to PrivacyLayer.")
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setOngoing(true);
-        // Copy-pasted from the Android docs:
-        // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
-        Intent selfIntent = new Intent(this, MainActivity.class);
-        selfIntent.putExtra("fromNotification", true);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(selfIntent);
-        PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(selfPendingIntent);
-
-        // Create a permanent notification.
         if (showPermanentNotification) {
-            notificationManager.notify(STATUS_NOTIFICATION_ID, notification.build());
+            Intent selfIntent = new Intent(this, MainActivity.class);
+            selfIntent.putExtra("fromNotification", true);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(MainActivity.class);
+            stackBuilder.addNextIntent(selfIntent);
+            PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent encryptionIntent = new Intent(this, MainActivity.class);
+            encryptionIntent.putExtra("fromNotification", true);
+            encryptionIntent.putExtra("type", "encryption");
+            Intent decryptionIntent = new Intent(this, MainActivity.class);
+            decryptionIntent.putExtra("fromNotification", true);
+            decryptionIntent.putExtra("type", "decryption");
+
+            PermanentNotification.notify(getApplicationContext(), selfPendingIntent, encryptionIntent, decryptionIntent);
         }
 
         // Encrypt/decrypt button
-        actionButton = (Button) findViewById(R.id.actionButton);
         actionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         });
 
         // Share button
-        Button shareButton = (Button) findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
@@ -171,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }
         });
 
-        Button buttonManageKeys = (Button) findViewById(R.id.buttonManageKeys);
         buttonManageKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,11 +225,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void setEncryptionMode() {
         mode = 0;
         actionButton.setText("Encrypt");
+        workMode.setChecked(false);
     }
 
     public void setDecryptionMode() {
         mode = 1;
         actionButton.setText("Decrypt");
+        workMode.setChecked(true);
     }
 
     public void updateSpinner() {
@@ -259,6 +259,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 .edit()
                 .putString("encryption_key", key)
                 .apply();
-        Log.i(TAG, "Current key is now " + key);
+        // Log.i(TAG, "Current key is now " + key);
     }
 }
