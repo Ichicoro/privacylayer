@@ -32,9 +32,12 @@ public class Encrypt extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        final SharedPreferences appData = getApplicationContext()
+                .getSharedPreferences("appData", Context.MODE_PRIVATE);
+
         showToastOnEnc = sharedPrefs.getBoolean("show_toast_on_enc", true);
         saveOldToClip = sharedPrefs.getBoolean("save_old_to_clip", true);
-        encKey = sharedPrefs.getString("encryption_key", "huehuehue");
+        encKey = appData.getString("encryption_key", "");
 
 
 

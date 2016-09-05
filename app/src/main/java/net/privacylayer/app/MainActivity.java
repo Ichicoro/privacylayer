@@ -213,7 +213,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentKey(String key) {
-        sharedPrefs
+        final SharedPreferences appData = getApplicationContext()
+                .getSharedPreferences("appData", Context.MODE_PRIVATE);
+        appData
                 .edit()
                 .putString("encryption_key", key)
                 .apply();

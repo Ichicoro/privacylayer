@@ -14,7 +14,8 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <EditTextPreference
+    <!-- <EditTextPreference
+        android:visibility="gone"
         android:capitalize="words"
         android:defaultValue="@string/pref_default_encryption_key"
         android:inputType="textCapWords"
@@ -22,7 +23,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="@string/pref_title_encryption_key" />
+        android:title="@string/pref_title_encryption_key" /> -->
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->

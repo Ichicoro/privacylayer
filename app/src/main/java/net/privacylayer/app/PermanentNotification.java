@@ -51,7 +51,7 @@ public class PermanentNotification {
 
                 // Set required fields, including the small icon, the
                 // notification title, and text.
-                .setSmallIcon(R.drawable.ic_stat_permanent)
+                .setSmallIcon(R.drawable.ic_visibility_off_white_24px)
                 .setContentTitle(title)
                 .setContentText(text)
 
