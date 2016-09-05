@@ -47,7 +47,7 @@
             android:name=".KeyExchange"
             android:label="@string/title_activity_key_exchange"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.privacylayer.app.MainActivity" />
