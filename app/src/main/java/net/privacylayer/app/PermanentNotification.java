@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -37,8 +36,7 @@ public class PermanentNotification {
      *
      * @see #cancel(Context)
      */
-    public static void notify(final Context context, PendingIntent selfPendingIntent,
-                              Intent encryptionIntent, Intent decryptionIntent) {
+    public static void notify(final Context context, PendingIntent selfPendingIntent) {
         final String ticker = "Encrypt/decrypt";
         final String title = "PrivacyLayer";
         final String text = "Encrypt/decrypt from the clipboard";
@@ -66,6 +64,7 @@ public class PermanentNotification {
                 // the notification.
                 .setContentIntent(selfPendingIntent)
 
+                /*
                 // Example additional actions for this notification. These will
                 // only show on devices running Android 4.1 or later, so you
                 // should ensure that the activity in this notification's
@@ -81,16 +80,7 @@ public class PermanentNotification {
                                 PendingIntent.FLAG_UPDATE_CURRENT
                         )
                 )
-                .addAction(
-                        R.drawable.ic_action_stat_reply,
-                        "Decrypt",
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                decryptionIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        )
-                )
+                */
 
                 // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(false);
