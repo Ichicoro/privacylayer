@@ -42,6 +42,18 @@ public class KeyExchange extends AppCompatActivity {
             e.printStackTrace();
             return;
         }
+
+        // "Manage keys" button
+        Button manageKeysButton = (Button) findViewById(R.id.buttonManageKeys);
+        manageKeysButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        KeyManagementActivity.class
+                ));
+            }
+        });
+
         // Share button
         Button shareButton = (Button) findViewById(R.id.buttonSharePubKey);
         shareButton.setOnClickListener(new View.OnClickListener() {
