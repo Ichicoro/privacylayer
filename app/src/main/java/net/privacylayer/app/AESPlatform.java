@@ -284,11 +284,11 @@ class DiffieHellman {
 
     public static KeyPair prepareKeyPair(SharedPreferences sharedPrefs) throws GeneralSecurityException {
         // Generate a keypair if it doesn't already exist
-        String PubKeyString = sharedPrefs.getString("PublicKey", "");
-        String PrivKeyString = sharedPrefs.getString("PrivateKey", "");
-        if (!PubKeyString.equals("")) {
-            PublicKey pubKey = DiffieHellman.loadPublicKey(PubKeyString);
-            PrivateKey privKey = DiffieHellman.loadPrivateKey(PrivKeyString);
+        if (sharedPrefs.contains("PublicKey")) {
+            String pubKeyString = sharedPrefs.getString("PublicKey", null);
+            String privKeyString = sharedPrefs.getString("PrivateKey", null);
+            PublicKey pubKey = DiffieHellman.loadPublicKey(pubKeyString);
+            PrivateKey privKey = DiffieHellman.loadPrivateKey(privKeyString);
             KeyPair myKeypair = new KeyPair(pubKey, privKey);
             Log.i(TAG, "Keypair rebuilt successfully.");
             return myKeypair;
