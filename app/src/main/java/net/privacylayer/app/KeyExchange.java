@@ -81,7 +81,7 @@ public class KeyExchange extends AppCompatActivity {
                     return;
                 }
 
-                EditText importedKeyText = (EditText) findViewById(R.id.textAddedPassword);
+                EditText importedKeyText = (EditText) findViewById(R.id.textImportedKey);
                 String importedKeyString = importedKeyText.getText().toString();
                 if (importedKeyString.equals("")) {
                     Toast.makeText(KeyExchange.this, "You must supply a key.", Toast.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class KeyExchange extends AppCompatActivity {
                             .apply();
                     Toast.makeText(KeyExchange.this, "Key added successfully!", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    Toast.makeText(KeyExchange.this, "This shouldn't happen!", Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -126,6 +126,7 @@ public class KeyExchange extends AppCompatActivity {
                         .edit()
                         .putString(addedPasswordName, addedPasswordString)
                         .apply();
+                Toast.makeText(KeyExchange.this, "Password added successfully!", Toast.LENGTH_SHORT).show();
             }
         });
     }
