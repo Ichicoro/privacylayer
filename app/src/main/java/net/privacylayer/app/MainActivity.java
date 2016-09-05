@@ -55,10 +55,9 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
 
-
-        keysMap = new HashMap<>(1 + keyValues.getAll().size());
+        // TODO: fix unchecked thingie warning
+        keysMap = new HashMap<>((Map<String, String>) keyValues.getAll());
         keysMap.put("Default key", "defkey");
-        keysMap.putAll((Map<String, String>) keyValues.getAll());
 
         updateSpinner();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
