@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,9 @@ public class KeyExchange extends AppCompatActivity {
         try {
             keyPair = DiffieHellman.prepareKeyPair(sharedPrefs);
             TextView pubKeyTextView = (TextView) findViewById(R.id.textPubkey);
-            String pubKeyShort = DiffieHellman.savePublicKey(keyPair.getPublic()).substring(0, 32);
-            pubKeyTextView.setText(pubKeyShort + "...");
+            String pubKeyShort = DiffieHellman.savePublicKey(keyPair.getPublic());
+            pubKeyTextView.setText(pubKeyShort);
+            pubKeyTextView.setMovementMethod(new ScrollingMovementMethod());
         } catch (Exception e) {
             e.printStackTrace();
             return;

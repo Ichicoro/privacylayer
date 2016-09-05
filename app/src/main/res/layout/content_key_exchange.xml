@@ -36,6 +36,10 @@
         android:id="@+id/textPubkey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="none"
+        android:fontFamily="monospace"
+        android:maxLines="4"
+        android:scrollbars="vertical"
         android:text="Pubkey here"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -116,7 +120,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Key"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine|textVisiblePassword" />
+    <!-- Fucking SwiftKey. http://stackoverflow.com/a/21047514-->
 
 </LinearLayout>
