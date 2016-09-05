@@ -27,12 +27,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "PrivacyLayer/MainAct";
-    public int mode = 0;    // 0 = encrypt   -   1 = decrypt
-    public Button encryptionButton;
-    public Button decryptionButton;
-    public Spinner spinner;
-    public SharedPreferences sharedPrefs;
+    private static final String TAG = "PrivacyLayer/MainAct";
+    private Spinner spinner;
     private String key;
     private HashMap<String, String> keysMap;
 
@@ -41,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Declare all interface items here to prevent null pointer exs.
-        encryptionButton = (Button) findViewById(R.id.encryptButton);
-        decryptionButton = (Button) findViewById(R.id.decryptButton);
+        Button encryptionButton = (Button) findViewById(R.id.encryptButton);
+        Button decryptionButton = (Button) findViewById(R.id.decryptButton);
         spinner = (Spinner) findViewById(R.id.keychainSpinner);
         final EditText editText = (EditText) findViewById(R.id.editText);
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
         Button shareButton = (Button) findViewById(R.id.shareButton);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         /* keystore */
 
@@ -86,22 +82,8 @@ public class MainActivity extends AppCompatActivity {
             if (clipData != null) {
                 ClipData.Item item = clipData.getItemAt(0);
                 CharSequence text = item.getText();
-                if (text != null) {
+                if (text != null)
                     inputBox.setText(text);
-                    String type = intent.getStringExtra("type");
-                    // TODO: use constants from MainActivity
-                    Log.i(TAG, "Notification type is: " + type);
-                    if (type.equals("encryption"))
-                        setEncryptionMode();
-                    else if (type.equals("decryption"))
-                        setDecryptionMode();
-                    /*
-                    else if (the text is a valid AES message)
-                        setDecryptionMode();
-                    else
-                        setEncryptionMode();
-                    */
-                }
             }
         }
 
@@ -114,14 +96,8 @@ public class MainActivity extends AppCompatActivity {
             stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(selfIntent);
             PendingIntent selfPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            Intent encryptionIntent = new Intent(this, MainActivity.class);
-            encryptionIntent.putExtra("fromNotification", true);
-            encryptionIntent.putExtra("type", "encryption");
-            Intent decryptionIntent = new Intent(this, MainActivity.class);
-            decryptionIntent.putExtra("fromNotification", true);
-            decryptionIntent.putExtra("type", "decryption");
 
-            PermanentNotification.notify(getApplicationContext(), selfPendingIntent, encryptionIntent, decryptionIntent);
+            PermanentNotification.notify(getApplicationContext(), selfPendingIntent);
         }
 
         // Encrypt/decrypt button
@@ -192,14 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
     public String decryptBoxText(String text) throws Exception {
         return AESPlatform.decrypt(new AESMessage(text), key);
-    }
-
-    public void setEncryptionMode() {
-        mode = 0;
-    }
-
-    public void setDecryptionMode() {
-        mode = 1;
     }
 
     public void updateSpinner() {
