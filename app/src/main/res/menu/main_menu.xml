@@ -9,12 +9,6 @@
         app:showAsAction="ifRoom"/> -->
 
     <item
-        android:id="@+id/action_newkeys"
-        android:icon="@drawable/ic_vpn_key_white_24px"
-        android:title="Manage keys (new)"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_keys"
         android:icon="@drawable/ic_vpn_key_white_24px"
         android:title="Manage keys"
