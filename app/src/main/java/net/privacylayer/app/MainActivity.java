@@ -154,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent keysIntent = new Intent(MainActivity.this, KeyExchange.class);
                 startActivity(keysIntent);
                 return true;
+            case R.id.action_newkeys:
+                Intent keysIntent2 = new Intent(MainActivity.this, ScrollingActivity.class);
+                startActivity(keysIntent2);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
