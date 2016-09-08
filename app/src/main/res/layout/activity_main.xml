@@ -31,13 +31,15 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Encrypt" />
+            android:text="Encrypt"
+            android:theme="@style/WhiteButton" />
         <Button
             android:id="@+id/decryptButton"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Decrypt" />
+            android:text="Decrypt"
+            android:theme="@style/WhiteButton" />
     </LinearLayout>
 
     <EditText
@@ -50,6 +52,7 @@
         android:id="@+id/shareButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SHARE" />
+        android:text="SHARE"
+        android:theme="@style/WhiteButton" />
 
 </LinearLayout>

@@ -36,7 +36,9 @@
                 android:id="@+id/buttonSharePubKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share" />
+                android:text="Share"
+                android:theme="@style/AccentButton" />
+
         </LinearLayout>
 
         <TextView
@@ -59,7 +61,8 @@
             android:id="@+id/buttonManageKeys"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage keys" />
+            android:text="Manage keys"
+            android:theme="@style/WhiteButton" />
 
         <LinearLayout
             android:layout_width="match_parent"

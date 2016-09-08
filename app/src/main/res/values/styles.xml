@@ -17,4 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="WhiteButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#FFFFFF</item>
+    </style>
+
+    <style name="AccentButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
 </resources>
