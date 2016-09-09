@@ -1,9 +1,9 @@
 package net.privacylayer.app;
 
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,12 +14,14 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import java.security.KeyPair;
 import java.util.List;
 
 /**
@@ -177,17 +179,44 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+        private String pubKey;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+            Preference myPref = findPreference("sharePubkey");
+            myPref.setSummary(pubKey.substring(0, 8) + "...");
+            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, pubKey);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
+                    return true;
+                }
+            });
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("encryption_key"));
+        }
+
+        @Override
+        public void onAttach(Context c) {
+            super.onAttach(c);
+            // Generate the DH keypair, because it must be shown
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(c);
+            try {
+                KeyPair keyPair = DiffieHellman.prepareKeyPair(sharedPrefs);
+                pubKey = DiffieHellman.savePublicKey(keyPair.getPublic());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
