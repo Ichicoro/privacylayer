@@ -8,13 +8,8 @@
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="net.privacylayer.app.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
-
-    <header
-        android:fragment="net.privacylayer.app.SettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
+        android:fragment="net.privacylayer.app.SettingsActivity$KeysPreferenceFragment"
+        android:icon="@drawable/ic_vpn_key_black_24px"
+        android:title="Keys" />
 
 </preference-headers>

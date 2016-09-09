@@ -12,6 +12,11 @@
         android:summary="@string/pref_description_save_old_to_clip"
         android:title="@string/pref_title_save_old_to_clip" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="enable_persistent_notification"
+        android:title="@string/pref_title_enable_persistent_notification" />
+
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
 
