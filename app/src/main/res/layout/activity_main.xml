@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -31,14 +32,14 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Encrypt"
+            android:text="@string/encrypt_button_text"
             android:theme="@style/WhiteButton" />
         <Button
             android:id="@+id/decryptButton"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Decrypt"
+            android:text="@string/decrypt_button_text"
             android:theme="@style/WhiteButton" />
     </LinearLayout>
 
@@ -52,7 +53,7 @@
         android:id="@+id/shareButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SHARE"
+        android:text="@string/share_button"
         android:theme="@style/WhiteButton" />
 
 </LinearLayout>

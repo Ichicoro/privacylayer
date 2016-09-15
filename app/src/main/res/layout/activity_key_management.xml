@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click and hold to delete a key." />
+        android:text="@string/tview_clickhold_to_delete_key" />
 
     <ListView
         android:id="@+id/listKeys"

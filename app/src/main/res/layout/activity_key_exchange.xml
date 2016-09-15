@@ -29,14 +29,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Your public key"
+                android:text="@string/text_your_public_key"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/buttonSharePubKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share"
+                android:text="@string/share_button"
                 android:theme="@style/AccentButton" />
 
         </LinearLayout>
@@ -50,7 +50,8 @@
             android:maxLines="4"
             android:scrollbars="vertical"
             android:text="Pubkey here"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:ignore="HardcodedText" />
 
         <Space
             android:layout_width="match_parent"
@@ -61,7 +62,7 @@
             android:id="@+id/buttonManageKeys"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage keys"
+            android:text="@string/button_manage_keys"
             android:theme="@style/WhiteButton" />
 
         <LinearLayout
@@ -74,21 +75,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add a password"
+                android:text="@string/tview_add_a_password"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/buttonAddPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add" />
+                android:text="@string/button_add" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/textAddedPasswordName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Key name"
+            android:hint="@string/text_key_name"
             android:inputType="text" />
 
         <EditText
@@ -113,21 +114,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Import a key"
+                android:text="@string/tview_import_a_key"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/buttonImportPubKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Import" />
+                android:text="@string/button_import" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/textImportedKeyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Key name"
+            android:hint="@string/text_key_name"
             android:inputType="text" />
 
         <EditText
@@ -136,7 +137,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:fontFamily="monospace"
-            android:hint="Key"
+            android:hint="@string/key"
             android:inputType="textMultiLine|textVisiblePassword" />
         <!-- Fucking SwiftKey. http://stackoverflow.com/a/21047514-->
 

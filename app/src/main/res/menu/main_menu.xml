@@ -9,9 +9,15 @@
         app:showAsAction="ifRoom"/> -->
 
     <item
+        android:id="@+id/action_help"
+        android:icon="@drawable/ic_info_white_24dp"
+        android:title="@string/action_help"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_keys"
         android:icon="@drawable/ic_vpn_key_white_24px"
-        android:title="Manage keys"
+        android:title="@string/action_keys"
         app:showAsAction="ifRoom" />
 
     <!-- Should always be in the overflow. Why? Dunno. -->
