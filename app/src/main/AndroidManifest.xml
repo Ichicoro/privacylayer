@@ -52,6 +52,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.privacylayer.app.MainActivity" />
         </activity>
+        <activity
+            android:name=".KeyManagementActivity"
+            android:label="@string/title_activity_key_management"
+            android:parentActivityName=".KeyExchange"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.privacylayer.app.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

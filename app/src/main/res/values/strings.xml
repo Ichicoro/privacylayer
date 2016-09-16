@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PrivacyLayer</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_key_management">Key Management</string>
 
     <!-- Strings related to Settings -->
     <string name="action_settings">Settings</string>

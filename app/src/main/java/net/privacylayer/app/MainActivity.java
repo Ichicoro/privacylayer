@@ -155,8 +155,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(keysIntent);
                 return true;
             case R.id.action_help:
-                Intent helpIntent = new Intent(MainActivity.this, KeyExchange.class);
-                startActivity(helpIntent);
+                /*Intent helpIntent = new Intent(MainActivity.this, KeyExchange.class);
+                startActivity(helpIntent); */
+                Toast.makeText(MainActivity.this, "Still working on this!", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
