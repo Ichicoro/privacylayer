@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PrivacyLayer</string>
+    <string name="action_help">Aiuto</string>
+    <string name="action_keys">Gestisci chiavi</string>
+    <string name="action_reply">Rispondi</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="action_share">Condividi</string>
+    <string name="button_add">Aggiungi</string>
+    <string name="button_import">Importa</string>
+    <string name="button_manage_keys">Gestisci Chiavi</string>
+    <string name="decrypt_button_text">Decripta</string>
+    <string name="encrypt_button_text">Encripta</string>
+    <string name="key">Chiave</string>
+    <string name="pref_description_save_old_to_clip">Questa opzione si applica solo al menù di Marshmallow</string>
+    <string name="pref_description_show_toast_on_enc">Potrebbe diventare un po spammoso :)</string>
+    <string name="pref_header_data_sync"><![CDATA[Data & sincronizzazione]]></string>
+    <string name="pref_header_general">Generali</string>
+    <string name="pref_header_notifications">Notifiche</string>
+    <string name="pref_ringtone_silent">Silenzioso</string>
+    <string name="pref_title_add_friends_to_messages">Aggiungi amici ai messaggi</string>
+    <string name="pref_title_enable_persistent_notification">Mostra notifica permanente</string>
+    <string name="pref_title_encryption_key">Chiave di encrpitazione</string>
+    <string name="pref_title_ringtone">Suoneria</string>
+    <string name="pref_title_save_old_to_clip">Copia testo originale nella clipboard</string>
+    <string name="pref_title_show_toast_on_enc">Mostra un toast quando la criptazione/decriptazione è avvenuta con successo</string>
+    <string name="pref_title_sync_frequency">Frequenza di sincronizzazione</string>
+    <string name="pref_title_system_sync_settings">Impostazioni di sistema della sincronizzazione</string>
+    <string name="pref_title_vibrate">Vibra</string>
+    <string name="share_button">CONDIVIDI</string>
+    <string name="text_key_name">Nome della chiave</string>
+    <string name="text_your_public_key">La tua chiave pubblica</string>
+    <string name="title_activity_key_exchange">Scambio di chiavi</string>
+    <string name="title_activity_key_management">Gestione delle chiavi</string>
+    <string name="title_activity_settings">Impostazioni</string>
+    <string name="tview_add_a_password">Aggiungi una password</string>
+    <string name="tview_clickhold_to_delete_key">Tieni premuto per eliminare una chiave</string>
+    <string name="tview_import_a_key">Importa una chiave</string>
+    <string name="pref_share_key">Condividi la tua chiave pubblica</string>
+</resources>

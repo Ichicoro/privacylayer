@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
         android:key="sharePubkey"
-        android:title="Share your public key" />
+        android:title="@string/pref_share_key" />
 </PreferenceScreen>

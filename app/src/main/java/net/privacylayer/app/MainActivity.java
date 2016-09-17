@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,8 +36,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final SpannableString s = new SpannableString("PrivacyLayer");
+        s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Update the action bar title with the TypefaceSpan instance
+
+        if (true) {     // todo: add a preference toggle!
+            getSupportActionBar().setTitle(s);
+        }
+
+
+
         // Declare all interface items here to prevent null pointer exs.
         Button encryptionButton = (Button) findViewById(R.id.encryptButton);
         Button decryptionButton = (Button) findViewById(R.id.decryptButton);
@@ -69,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         Intent intent = getIntent();
         Boolean fromNotification = intent.getBooleanExtra("fromNotification", false);
@@ -193,4 +210,9 @@ public class MainActivity extends AppCompatActivity {
                 .apply();
         // Log.i(TAG, "Current key is now " + key);
     }
+
+    public void changeActionbarFont(String title) {
+
+    }
+
 }
