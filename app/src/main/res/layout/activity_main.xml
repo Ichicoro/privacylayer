@@ -21,6 +21,7 @@
         android:id="@+id/inputBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textAutoCorrect"
         android:maxHeight="500dp" />
 
     <LinearLayout
@@ -47,7 +48,8 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="500px" />
+        android:inputType="none"
+        android:maxHeight="500dp" />
 
     <Button
         android:id="@+id/shareButton"
