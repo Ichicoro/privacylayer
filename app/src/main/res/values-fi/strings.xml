@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PrivacyLayer</string>
+    <string name="title_activity_settings">Asetukset</string>
+    <string name="title_activity_key_management">Avaimien hallinta</string>
+
+    <!-- Strings related to Settings -->
+    <string name="action_settings">Asetukset</string>
+    <string name="action_keys">Hallinnoi avaimia</string>
+    <string name="action_help">Apua</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Yleiset</string>
+
+    <string name="pref_title_save_old_to_clip">Tallenna alkuperäinen teksti leikepöydälle</string>
+    <string name="pref_description_save_old_to_clip">Tämä toimii vain Marshmallow-menua käytettäessä</string>
+
+    <string name="pref_title_show_toast_on_enc">Näytä Toast-viesti kun salaus/salauksen purkaminen onnistuu</string>
+    <string name="pref_description_show_toast_on_enc">Tämä voi aiheuttaa spämmiä c:</string>
+
+    <string name="pref_title_encryption_key">Salausavain</string>
+
+    <!-- <string name="pref_title_add_friends_to_messages">Lisää ystäviä viesteihin</string>
+    <string-array name="pref_example_list_titles">
+        <item>Aina</item>
+        <item>Kun mahdollista</item>
+        <item>Ei koskaan</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array> -->
+
+
+    <!-- Example settings for Data & Sync -->
+    <!-- <string name="pref_header_data_sync">Tietojen &amp; synkronointi</string>
+
+    <string name="pref_title_sync_frequency">Synkronoinnin aikaväli</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minuuttia</item>
+        <item>30 minuuttia</item>
+        <item>1 tunti</item>
+        <item>3 tuntia</item>
+        <item>6 tuntia</item>
+        <item>Ei koskaan</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array> -->
+
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Ilmoitukset</string>
+
+    <string name="pref_title_enable_persistent_notification">Näytä pysyvä ilmoitus</string>
+
+    <string name="pref_title_ringtone">Soittoääni</string>
+    <string name="pref_ringtone_silent">Hiljainen</string>
+
+    <string name="pref_title_vibrate">Värinä</string>
+    <string name="title_activity_key_exchange">Avaimien vaihtaminen</string>
+
+    <string name="action_share">Jaa</string>
+    <string name="action_reply">Vastaa</string>
+    <string name="encrypt_button_text">Salaa</string>
+    <string name="decrypt_button_text">Pura salaus</string>
+    <string name="share_button">JAA</string>
+    <string name="text_your_public_key">Sinun yleisavain</string>
+    <string name="button_manage_keys">Hallinnoi avaimia</string>
+    <string name="tview_add_a_password">Lisää salasana</string>
+    <string name="button_add">Lisää</string>
+    <string name="text_key_name">Avaimen nimi</string>
+    <string name="tview_import_a_key">Tuo avain</string>
+    <string name="button_import">Tuo</string>
+    <string name="key">Avain</string>
+    <string name="tview_clickhold_to_delete_key">Paina ja pidä pohjassa poistaaksesi avaimen.</string>
+    <string name="pref_share_key">Jaa sinun yleisavain</string>
+    <string name="pref_use_dark_theme">.</string>
+
+</resources>

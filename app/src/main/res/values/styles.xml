@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DarkAppTheme" parent="AppCompat"></style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -19,10 +21,12 @@
 
     <style name="WhiteButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">#FFFFFF</item>
+        <item name="android:textColor">#000000</item>
     </style>
 
     <style name="AccentButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
 </resources>

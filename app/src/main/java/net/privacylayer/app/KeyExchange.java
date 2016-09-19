@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,12 +21,34 @@ import java.security.KeyPair;
 
 public class KeyExchange extends AppCompatActivity {
 
+    private static final String TAG = "PrivacyLayer/KeyExch";
+
     private KeyPair keyPair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_key_exchange);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        boolean useDarkTheme = sharedPrefs.getBoolean("use_dark_theme", false);
+
+        Log.i(TAG, "Using dark theme: " + useDarkTheme);
+        if (useDarkTheme) {
+            setTheme(R.style.DarkAppTheme);
+        } else {
+            super.setTheme(R.style.AppTheme);
+        }
+
+        setContentView(R.layout.activity_main);
+
+        // Update the action bar title with the TypefaceSpan instance
+        boolean useCustomFont = sharedPrefs.getBoolean("use_custom_font", false);
+        if (useCustomFont) {     // todo: add a preference toggle!
+            final SpannableString s = new SpannableString("PrivacyLayer");
+            s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getSupportActionBar().setTitle(s);
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -31,7 +56,6 @@ public class KeyExchange extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         try {
             keyPair = DiffieHellman.prepareKeyPair(sharedPrefs);
             TextView pubKeyTextView = (TextView) findViewById(R.id.textPubkey);

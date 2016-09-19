@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PrivacyLayer</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="title_activity_key_management">Schlüssel Management</string>
+
+    <!-- Strings related to Settings -->
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_keys">Manage Schlüssel</string>
+    <string name="action_help">Hilfe</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Allgemein</string>
+
+    <string name="pref_title_save_old_to_clip">Speichere den original text auf das clipboard</string>
+    <string name="pref_description_save_old_to_clip">Das funktioniert nur wenn man das Marshmallow Menu benutzt</string>
+
+    <string name="pref_title_show_toast_on_enc">Zeige text when encodierung/decodierung erfolgreich ist</string>
+    <string name="pref_description_show_toast_on_enc">Hier könnte ein bischen Spam enstehen c:</string>
+
+    <string name="pref_title_encryption_key">Verschlüsselung Schlüssel</string>
+
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Nachrichten</string>
+
+    <string name="pref_title_enable_persistent_notification">Zeige ausdauernde nachrichten</string>
+
+    <string name="pref_title_ringtone">Klingelton</string>
+    <string name="pref_ringtone_silent">Stumm</string>
+
+    <string name="pref_title_vibrate">Vibriere</string>
+    <string name="title_activity_key_exchange">Schlüssel Tausch</string>
+
+    <string name="action_share">Teilen</string>
+    <string name="action_reply">Antworten</string>
+    <string name="encrypt_button_text">Verschlüsseln</string>
+    <string name="decrypt_button_text">Entschlüsseln</string>
+    <string name="share_button">TEILEN</string>
+    <string name="text_your_public_key">Dein öffentlicher Schlüssel</string>
+    <string name="button_manage_keys">Manage Schlüssel</string>
+    <string name="tview_add_a_password">Password hinzufügen</string>
+    <string name="button_add">Hinzufügen</string>
+    <string name="text_key_name">Schlüssel Name</string>
+    <string name="tview_import_a_key">Importiere einen Schlüssel</string>
+    <string name="button_import">Importiere</string>
+    <string name="key">Schlüssel</string>
+    <string name="tview_clickhold_to_delete_key">Drücke und halte um einen Schlüssel zu löschen</string>
+    <string name="pref_share_key">Teile deinen öffentlichen Schlüssel</string>
+    <string name="pref_use_dark_theme">.</string>
+
+</resources>

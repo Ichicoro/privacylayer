@@ -36,17 +36,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        boolean useDarkTheme = sharedPrefs.getBoolean("use_dark_theme", false);
+
+        Log.i(TAG, "Using dark theme: " + useDarkTheme);
+        if (useDarkTheme) {
+            setTheme(R.style.DarkAppTheme);
+        } else {
+            super.setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_main);
 
-        final SpannableString s = new SpannableString("PrivacyLayer");
-        s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         // Update the action bar title with the TypefaceSpan instance
-
-        if (true) {     // todo: add a preference toggle!
+        boolean useCustomFont = sharedPrefs.getBoolean("use_custom_font", false);
+        if (useCustomFont) {     // todo: add a preference toggle!
+            final SpannableString s = new SpannableString("PrivacyLayer");
+            s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             getSupportActionBar().setTitle(s);
         }
 
@@ -60,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
         Button shareButton = (Button) findViewById(R.id.shareButton);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+
+
 
         /* keystore */
 
@@ -211,8 +224,18 @@ public class MainActivity extends AppCompatActivity {
         // Log.i(TAG, "Current key is now " + key);
     }
 
-    public void changeActionbarFont(String title) {
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateSpinner();
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+
 
     }
+
 
 }

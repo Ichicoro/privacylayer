@@ -17,6 +17,16 @@
         android:key="enable_persistent_notification"
         android:title="@string/pref_title_enable_persistent_notification" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="use_dark_theme"
+        android:title="@string/pref_use_dark_theme" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="use_custom_font"
+        android:title="@string/pref_use_custom_font" />
+
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
 
