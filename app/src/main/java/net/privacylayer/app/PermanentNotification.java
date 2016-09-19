@@ -15,7 +15,7 @@ import android.support.v4.app.NotificationCompat;
  * This class makes heavy use of the {@link NotificationCompat.Builder} helper
  * class to create notifications in a backward-compatible way.
  */
-public class PermanentNotification {
+class PermanentNotification {
     /**
      * The unique identifier for this type of notification.
      */
@@ -45,7 +45,7 @@ public class PermanentNotification {
 
                 // Set appropriate defaults for the notification light, sound,
                 // and vibration.
-                .setDefaults(Notification.DEFAULT_ALL)
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
 
                 // Set required fields, including the small icon, the
                 // notification title, and text.

@@ -37,11 +37,10 @@ import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AESPlatform {
+class AESPlatform {
 
     // AES-GCM parameters
-    public static final int DEFAULT_AES_KEY_SIZE = 128; // in bits
-    public static final int GCM_NONCE_LENGTH = 12; // in bytes
+    public static final int DEFAULT_AES_KEY_SIZE = 128;
 
     public static AESMessage encrypt(@NonNull String inputString, @NonNull String key) throws Exception {
         return encrypt(inputString, key, DEFAULT_AES_KEY_SIZE);
@@ -49,7 +48,8 @@ public class AESPlatform {
 
     public static AESMessage encrypt(@NonNull String inputString, @NonNull String keyString, int keySize) throws Exception {
         byte[] input = inputString.getBytes("UTF-8");
-        final byte[] nonce = new byte[GCM_NONCE_LENGTH];
+        // Use 12 bytes for the nonce.
+        final byte[] nonce = new byte[12];
         Random random = new Random();
         random.nextBytes(nonce);
 
@@ -158,7 +158,7 @@ class DiffieHellman {
     }
 
 
-    public static PublicKey loadPublicKey(String stored) throws GeneralSecurityException {
+    public static PublicKey loadPublicKey(String stored) throws GeneralSecurityException, IllegalArgumentException {
         byte[] data = Base64.decode(stored, Base64.NO_WRAP);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(data);
         KeyFactory fact = KeyFactory.getInstance("DH");
