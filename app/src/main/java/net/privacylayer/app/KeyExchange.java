@@ -97,6 +97,8 @@ public class KeyExchange extends AppCompatActivity {
                             .putString(importedKeyName, new String(derivedKey, "UTF-8"))
                             .apply();
                     Toast.makeText(KeyExchange.this, "Key added successfully!", Toast.LENGTH_SHORT).show();
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(KeyExchange.this, "Invalid public key", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

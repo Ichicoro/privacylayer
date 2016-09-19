@@ -158,7 +158,7 @@ class DiffieHellman {
     }
 
 
-    public static PublicKey loadPublicKey(String stored) throws GeneralSecurityException {
+    public static PublicKey loadPublicKey(String stored) throws GeneralSecurityException, IllegalArgumentException {
         byte[] data = Base64.decode(stored, Base64.NO_WRAP);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(data);
         KeyFactory fact = KeyFactory.getInstance("DH");
