@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PrivacyLayer</string>
     <string name="title_activity_settings">Asetukset</string>
     <string name="title_activity_key_management">Avaimien hallinta</string>
 
@@ -17,8 +16,6 @@
 
     <string name="pref_title_show_toast_on_enc">Näytä Toast-viesti kun salaus/salauksen purkaminen onnistuu</string>
     <string name="pref_description_show_toast_on_enc">Tämä voi aiheuttaa spämmiä c:</string>
-
-    <string name="pref_title_encryption_key">Salausavain</string>
 
     <!-- <string name="pref_title_add_friends_to_messages">Lisää ystäviä viesteihin</string>
     <string-array name="pref_example_list_titles">
@@ -56,18 +53,11 @@
 
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Ilmoitukset</string>
 
     <string name="pref_title_enable_persistent_notification">Näytä pysyvä ilmoitus</string>
 
-    <string name="pref_title_ringtone">Soittoääni</string>
-    <string name="pref_ringtone_silent">Hiljainen</string>
-
-    <string name="pref_title_vibrate">Värinä</string>
     <string name="title_activity_key_exchange">Avaimien vaihtaminen</string>
 
-    <string name="action_share">Jaa</string>
-    <string name="action_reply">Vastaa</string>
     <string name="encrypt_button_text">Salaa</string>
     <string name="decrypt_button_text">Pura salaus</string>
     <string name="share_button">JAA</string>
@@ -81,6 +71,5 @@
     <string name="key">Avain</string>
     <string name="tview_clickhold_to_delete_key">Paina ja pidä pohjassa poistaaksesi avaimen.</string>
     <string name="pref_share_key">Jaa sinun yleisavain</string>
-    <string name="pref_use_dark_theme">.</string>
 
 </resources>

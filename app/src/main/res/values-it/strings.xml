@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PrivacyLayer</string>
     <string name="action_help">Aiuto</string>
     <string name="action_keys">Gestisci chiavi</string>
     <string name="action_settings">Impostazioni</string>
@@ -13,7 +12,6 @@
     <string name="pref_description_save_old_to_clip">Questa opzione si applica solo al menù di Marshmallow</string>
     <string name="pref_description_show_toast_on_enc">Potrebbe diventare un po\' spammoso c:</string>
     <string name="pref_header_general">Generali</string>
-    <string name="pref_ringtone_silent">Silenzioso</string>
     <string name="pref_title_enable_persistent_notification">Mostra notifica permanente</string>
     <string name="pref_title_save_old_to_clip">Copia testo originale negli appunti</string>
     <string name="pref_title_show_toast_on_enc">Mostra un toast quando la criptazione/decriptazione è avvenuta con successo</string>
@@ -27,5 +25,7 @@
     <string name="tview_clickhold_to_delete_key">Tieni premuto per eliminare una chiave</string>
     <string name="tview_import_a_key">Importa una chiave</string>
     <string name="pref_share_key">Condividi la tua chiave pubblica</string>
-    <string name="pref_use_custom_font_summary">This feature is still in development!</string>
+    <string name="pref_use_custom_font">Usa un font monospaziato</string>
+    <string name="pref_use_dark_theme">Usa il tema scuro</string>
+    <string name="pref_use_dark_theme_summary">Questa funzionalità è ancora incompleta!</string>
 </resources>

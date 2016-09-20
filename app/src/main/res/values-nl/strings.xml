@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">PrivacyLayer</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="title_activity_key_management">Sleutel beheer</string>
 
@@ -17,21 +16,12 @@
     <string name="pref_title_show_toast_on_enc">Laat bericht zien wanneer versleutelen/ontsleutelen is gelukt</string>
     <string name="pref_description_show_toast_on_enc">Dit kan veel berichten opleveren c:</string>
 
-    <string name="pref_title_encryption_key">Versleutel code </string>
-
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notificaties</string>
 
     <string name="pref_title_enable_persistent_notification">Zet notificatie vast</string>
 
-    <string name="pref_title_ringtone">Geluid aan</string>
-    <string name="pref_ringtone_silent">Stil</string>
-
-    <string name="pref_title_vibrate">Trillen</string>
     <string name="title_activity_key_exchange">Sleutel wisselen</string>
 
-    <string name="action_share">Delen</string>
-    <string name="action_reply">Antwoord</string>
     <string name="encrypt_button_text">Versleutelen</string>
     <string name="decrypt_button_text">Ontsleutelen</string>
     <string name="text_your_public_key">Jouw publieke sleutel</string>
@@ -45,6 +35,5 @@
     <string name="tview_clickhold_to_delete_key">Selecteer en houdt vast om een sleutel te verwijderen</string>
     <string name="share_button">DELEN</string>
     <string name="pref_share_key">Deel jouw publieke sleutel</string>
-    <string name="pref_use_dark_theme">.</string>
 
 </resources>

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">PrivacyLayer</string>
     <string name="title_activity_settings">Configuración</string>
     <string name="title_activity_key_management">Gestión de claves</string>
 
@@ -16,8 +15,6 @@
 
     <string name="pref_title_show_toast_on_enc">Mostrar mensaje cuando la codificación/descodificación es satisfactoria</string>
     <string name="pref_description_show_toast_on_enc">Esto puede volverse algo repetitivo c:</string>
-
-    <string name="pref_title_encryption_key">Clave de encriptación</string>
 
     <!-- <string name="pref_title_add_friends_to_messages">Añadir amigos a los mensajes</string>
     <string-array name="pref_example_list_titles">
@@ -55,18 +52,11 @@
 
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notificaciones</string>
 
     <string name="pref_title_enable_persistent_notification">Mostrar notificación persistente</string>
 
-    <string name="pref_title_ringtone">Tono de llamada</string>
-    <string name="pref_ringtone_silent">Silencio</string>
-
-    <string name="pref_title_vibrate">Vibrar</string>
     <string name="title_activity_key_exchange">Intercambio de claves</string>
 
-    <string name="action_share">Compartir</string>
-    <string name="action_reply">Responder</string>
     <string name="encrypt_button_text">Encriptar</string>
     <string name="decrypt_button_text">Desencriptar</string>
     <string name="share_button">COMPARTIR</string>
@@ -80,6 +70,5 @@
     <string name="key">Clave</string>
     <string name="tview_clickhold_to_delete_key">Presiona y mantén para borrar una clave.</string>
     <string name="pref_share_key">Comparte tu clave pública</string>
-    <string name="pref_use_dark_theme">.</string>
 
 </resources>

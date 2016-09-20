@@ -34,7 +34,7 @@
     <string name="key">Key</string>
     <string name="tview_clickhold_to_delete_key">Click and hold to delete a key.</string>
     <string name="pref_share_key">Share your public key</string>
-    <string name="password">hint_password</string>
+    <string name="password">Password</string>
     <string name="pref_use_custom_font">Use the monospace font for the ActionBar</string>
     <string name="pref_use_dark_theme">Use the dark theme</string>
     <string name="pref_use_dark_theme_summary">This feature is still in development!</string>
