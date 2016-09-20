@@ -36,7 +36,8 @@ public class KeyManagementActivity extends AppCompatActivity {
 
         Log.i(TAG, "Using dark theme: " + useDarkTheme);
         if (useDarkTheme) {
-            setTheme(R.style.DarkAppTheme);
+            Log.i(TAG, "Dark theme still missing :(");
+            //setTheme(R.style.DarkAppTheme);
         } else {
             super.setTheme(R.style.AppTheme);
         }

@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "Using dark theme: " + useDarkTheme);
         if (useDarkTheme) {
-            setTheme(R.style.DarkAppTheme);
+            Log.i(TAG, "Dark theme still missing :(");
+            //setTheme(android.R.style.Theme);
         } else {
             super.setTheme(R.style.AppTheme);
         }

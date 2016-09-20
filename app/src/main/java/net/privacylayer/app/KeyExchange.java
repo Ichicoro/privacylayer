@@ -23,23 +23,28 @@ public class KeyExchange extends AppCompatActivity {
 
     private static final String TAG = "PrivacyLayer/KeyExch";
 
+    SharedPreferences sharedPrefs;
+
     private KeyPair keyPair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
 
         boolean useDarkTheme = sharedPrefs.getBoolean("use_dark_theme", false);
 
         Log.i(TAG, "Using dark theme: " + useDarkTheme);
         if (useDarkTheme) {
-            setTheme(R.style.DarkAppTheme);
+            Log.i(TAG, "Dark theme still missing :(");
+            //setTheme(R.style.DarkAppTheme);
         } else {
             super.setTheme(R.style.AppTheme);
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_key_exchange);
 
         // Update the action bar title with the TypefaceSpan instance
         boolean useCustomFont = sharedPrefs.getBoolean("use_custom_font", false);
