@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.security.KeyPair;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KeyExchange extends AppCompatActivity {
 
@@ -32,6 +34,11 @@ public class KeyExchange extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        final SharedPreferences keyValues = getApplicationContext()
+                .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
+
+        final HashMap keysMap = new HashMap<>((Map<String, String>) keyValues.getAll());
 
 
         boolean useDarkTheme = sharedPrefs.getBoolean("use_dark_theme", false);
@@ -103,6 +110,12 @@ public class KeyExchange extends AppCompatActivity {
             public void onClick(View v) {
                 EditText importedKeyNameText = (EditText) findViewById(R.id.textImportedKeyName);
                 String importedKeyName = importedKeyNameText.getText().toString();
+
+                if (keysMap.containsValue(importedKeyName)) {
+                    Toast.makeText(KeyExchange.this, R.string.toast_key_already_present, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (importedKeyName.equals("")) {
                     Toast.makeText(KeyExchange.this, "You must supply a key name.", Toast.LENGTH_SHORT).show();
                     return;
@@ -140,6 +153,11 @@ public class KeyExchange extends AppCompatActivity {
                 String addedPasswordName = addedPasswordNameText.getText().toString();
                 if (addedPasswordName.equals("")) {
                     Toast.makeText(KeyExchange.this, "You must supply a key name.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (keysMap.containsValue(addedPasswordName)) {
+                    Toast.makeText(KeyExchange.this, R.string.toast_key_already_present, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

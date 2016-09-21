@@ -16,7 +16,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.security.KeyPair;
 import java.util.List;
@@ -255,7 +259,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onAttach(Context ctx) {
             super.onAttach(ctx);
-            addPreferencesFromResource(R.xml.pref_keys);
+            //addPreferencesFromResource(R.xml.pref_keys);
 
             // Generate the DH keypair, because it must be shown
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
