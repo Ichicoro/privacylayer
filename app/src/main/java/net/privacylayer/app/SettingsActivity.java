@@ -16,6 +16,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.MenuItem;
 
 import java.security.KeyPair;
@@ -93,7 +95,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         setupActionBar();
+
+        boolean useCustomFont = sharedPrefs.getBoolean("use_custom_font", false);
+        if (useCustomFont) {     // todo: add a preference toggle!
+            final SpannableString s = new SpannableString("Settings");
+            s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getSupportActionBar().setTitle(s);
+        }
+
     }
 
     /**

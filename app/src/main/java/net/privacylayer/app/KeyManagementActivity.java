@@ -47,7 +47,7 @@ public class KeyManagementActivity extends AppCompatActivity {
         // Update the action bar title with the TypefaceSpan instance
         boolean useCustomFont = sharedPrefs.getBoolean("use_custom_font", false);
         if (useCustomFont) {     // todo: add a preference toggle!
-            final SpannableString s = new SpannableString("PrivacyLayer");
+            final SpannableString s = new SpannableString("Key Management");
             s.setSpan(new TypefaceSpan(this, "RobotoMono-Medium.ttf"), 0, s.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             getSupportActionBar().setTitle(s);
