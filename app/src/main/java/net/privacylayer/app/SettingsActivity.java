@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -21,7 +22,14 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.security.KeyPair;
 import java.util.List;
 
@@ -249,6 +257,81 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
+            Preference loadBackupPref = findPreference("loadFromBackup");
+            loadBackupPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        Toast.makeText(getActivity(), "External storage not present.", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    File root = android.os.Environment.getExternalStorageDirectory();
+                    File dir = new File(root.getAbsolutePath() + "/PrivacyLayer");
+                    dir.mkdirs();
+                    final File file = new File(dir, "keys.aes256");
+                    String filePath = root.getAbsolutePath() + "/PrivacyLayer/keys.aes256";
+                    if (!file.exists()) {
+                        Toast.makeText(
+                                getActivity(),
+                                "File not found: " + filePath,
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return true;
+                    }
+                    if (!sharedPrefs.contains("backupPassword")) {
+                        Toast.makeText(getActivity(), "Please configure your backup key.", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("This will import keys from the backup file (" + filePath
+                            + ") using your backup key. Your existing keys will be kept. Proceed?")
+                            .setTitle("Import keys from a backup");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                FileReader fileReader = new FileReader(file);
+                                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                                StringBuilder sb = new StringBuilder();
+                                String line;
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    sb.append(line).append("\n");
+                                }
+                                bufferedReader.close();
+                                AESMessage aesMessage = new AESMessage(sb.toString());
+                                String backup = AESPlatform.decrypt(aesMessage, sharedPrefs.getString("backupPassword", ""));
+                                JSONObject jsonObject = new JSONObject(backup);
+                                JSONArray keyNames = jsonObject.names();
+
+                                final SharedPreferences keyValues = getActivity()
+                                        .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor keyEditor = keyValues.edit();
+                                for (int i = 0; i < keyNames.length(); i++) {
+                                    String keyName = keyNames.getString(i);
+                                    if (keyValues.contains(keyName)) {
+                                        Toast.makeText(getActivity(), "The key " + keyName + " already exists, not importing it.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        keyEditor.putString(keyName, jsonObject.getString(keyName));
+                                        // Log.i("We", "Loading key " + jsonObject.getString(keyName) + " with name " + keyName);
+                                    }
+                                }
+                                keyEditor.apply();
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), "An error occurred.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return true;
+                }
+            });
+
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -259,7 +342,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onAttach(Context ctx) {
             super.onAttach(ctx);
-            //addPreferencesFromResource(R.xml.pref_keys);
+            // addPreferencesFromResource(R.xml.pref_keys);
 
             // Generate the DH keypair, because it must be shown
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);

@@ -3,6 +3,9 @@
         android:key="backupPassword"
         android:title="@string/pref_backup_password" />
     <Preference
+        android:key="loadFromBackup"
+        android:title="@string/pref_load_from_backup" />
+    <Preference
         android:key="sharePubkey"
         android:title="@string/pref_share_key" />
 </PreferenceScreen>
