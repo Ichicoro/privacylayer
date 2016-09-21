@@ -13,7 +13,7 @@
         android:title="@string/pref_title_save_old_to_clip" />
 
     <SwitchPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="enable_persistent_notification"
         android:title="@string/pref_title_enable_persistent_notification" />
 
