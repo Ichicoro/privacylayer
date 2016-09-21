@@ -16,7 +16,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.security.KeyPair;
 import java.util.List;
@@ -186,7 +188,52 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_keys);
             setHasOptionsMenu(true);
+
+            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            Preference pubkeyPref = findPreference("sharePubkey");
+            // myPref.setSummary(pubKey.substring(0, 8) + "...");
+            pubkeyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, pubKey);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
+                    return true;
+                }
+            });
+
+            Preference backupKeyPref = findPreference("backupPassword");
+            // myPref.setSummary(pubKey.substring(0, 8) + "...");
+            backupKeyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("This password is used to backup your keys and passwords.")
+                            .setTitle("Add a backup password");
+                    final EditText input = new EditText(getActivity());
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String password = input.getText().toString();
+                            sharedPrefs.edit().putString("backupPassword", password).apply();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return true;
+                }
+            });
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
@@ -209,19 +256,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 throw new RuntimeException(e);
             }
 
-            Preference pubkeyPref = findPreference("sharePubkey");
-            // myPref.setSummary(pubKey.substring(0, 8) + "...");
-            pubkeyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, pubKey);
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, "Share with..."));
-                    return true;
-                }
-            });
-
+            // TODO: implement this sometime, when the keys will be migrated to the settings
             final Context c = ctx;
             Preference addPasswordPref = findPreference("addPassword");
             addPasswordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

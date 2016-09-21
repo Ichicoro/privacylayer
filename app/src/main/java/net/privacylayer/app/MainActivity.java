@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -24,6 +25,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<String, String> keysMap;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -62,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(s);
         }
 
-
-
         // Declare all interface items here to prevent null pointer exs.
         Button encryptionButton = (Button) findViewById(R.id.encryptButton);
         Button decryptionButton = (Button) findViewById(R.id.decryptButton);
@@ -72,17 +78,53 @@ public class MainActivity extends AppCompatActivity {
         final EditText inputBox = (EditText) findViewById(R.id.inputBox);
         Button shareButton = (Button) findViewById(R.id.shareButton);
 
-
-
-
-
         /* keystore */
 
         final SharedPreferences keyValues = getApplicationContext()
                 .getSharedPreferences("KeyStore", Context.MODE_PRIVATE);
 
-        // TODO: fix unchecked thingie warning
+        // The unchecked warning is ignored - we know for a fact that keyValues is a
+        // Map<String, String>.
         keysMap = new HashMap<>((Map<String, String>) keyValues.getAll());
+
+        if (sharedPrefs.contains("backupPassword")) {
+            String password = sharedPrefs.getString("backupPassword", "");
+            JSONObject jsonObject = new JSONObject(keysMap);
+            try {
+                String export = jsonObject.toString(0);
+                String encryptedExport = AESPlatform.encrypt(export, password, 256).toString();
+                if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    Toast.makeText(MainActivity.this, "Couldn't back up keys: no external storage present", Toast.LENGTH_SHORT).show();
+                } else {
+                    File root = android.os.Environment.getExternalStorageDirectory();
+                    Log.i(TAG, "External root: " + root);
+                    File dir = new File(root.getAbsolutePath() + "/PrivacyLayer");
+                    dir.mkdirs();
+                    File file = new File(dir, "keys.aes256");
+
+                    try {
+                        FileOutputStream f = new FileOutputStream(file);
+                        f.write(encryptedExport.getBytes("UTF-8"));
+                        f.flush();
+                        f.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this, "Couldn't save backup.", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "Keys backed up successfully.");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Unable to export keys to JSON.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Note: must generate a backup password", Toast.LENGTH_SHORT).show();
+        }
+
         keysMap.put("Default key", "defkey");
 
         updateSpinner();
