@@ -42,10 +42,12 @@ class AESPlatform {
     // AES-GCM parameters
     public static final int DEFAULT_AES_KEY_SIZE = 128;
 
+    @NonNull
     public static AESMessage encrypt(@NonNull String inputString, @NonNull String key) throws Exception {
         return encrypt(inputString, key, DEFAULT_AES_KEY_SIZE);
     }
 
+    @NonNull
     public static AESMessage encrypt(@NonNull String inputString, @NonNull String keyString, int keySize) throws Exception {
         byte[] input = inputString.getBytes("UTF-8");
         // Use 12 bytes for the nonce.
@@ -57,16 +59,18 @@ class AESPlatform {
         return new AESMessage(encrypted, nonce);
     }
 
+    @NonNull
     public static String decrypt(@NonNull AESMessage message, @NonNull String keyString) throws Exception {
         return decrypt(message, keyString, DEFAULT_AES_KEY_SIZE);
     }
 
+    @NonNull
     public static String decrypt(@NonNull AESMessage message, @NonNull String keyString, int keySize) throws Exception {
         byte[] decrypted = operate(Cipher.DECRYPT_MODE, message.content, keyString, keySize, message.nonce);
         return new String(decrypted, "UTF-8");
     }
 
-    private static byte[] operate(int mode, byte[] input, String keyString, int keySize, byte[] nonce)
+    private static byte[] operate(int mode, byte[] input, @NonNull String keyString, int keySize, byte[] nonce)
             throws Exception {
 
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -115,6 +119,7 @@ class AESMessage {
         nonce = Base64.decode(parts[1].getBytes("UTF-8"), Base64.DEFAULT);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return new String(Base64.encode(content, Base64.NO_WRAP)) + ":"
@@ -125,7 +130,7 @@ class AESMessage {
 class DiffieHellman {
     private static final String TAG = "PrivacyLayer/DH";
     // Based on https://gist.github.com/zcdziura/7652286
-    private static byte[] iv = new SecureRandom().generateSeed(16);
+    private static final byte[] iv = new SecureRandom().generateSeed(16);
 
     public static void test() throws Exception {
         String plainText = "Look mah, I'm a message!";
@@ -220,7 +225,7 @@ class DiffieHellman {
         return keyAgreement.generateSecret("AES");
     }
 
-    public static String encryptString(SecretKey key, String plainText) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException, UnsupportedEncodingException, InvalidAlgorithmParameterException, InvalidKeyException, ShortBufferException, BadPaddingException, IllegalBlockSizeException {
+    public static String encryptString(SecretKey key, @NonNull String plainText) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException, UnsupportedEncodingException, InvalidAlgorithmParameterException, InvalidKeyException, ShortBufferException, BadPaddingException, IllegalBlockSizeException {
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
         byte[] plainTextBytes = plainText.getBytes("UTF-8");
@@ -236,7 +241,8 @@ class DiffieHellman {
         return bytesToHex(cipherText);
     }
 
-    public static String decryptString(SecretKey key, String cipherText) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, ShortBufferException, UnsupportedEncodingException {
+    @NonNull
+    public static String decryptString(@NonNull SecretKey key, @NonNull String cipherText) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, ShortBufferException, UnsupportedEncodingException {
         Key decryptionKey = new SecretKeySpec(key.getEncoded(),
                 key.getAlgorithm());
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
@@ -268,11 +274,12 @@ class DiffieHellman {
         return buffer.toString();
     }
 
-    public static String bytesToHex(byte[] data) {
+    public static String bytesToHex(@NonNull byte[] data) {
         return bytesToHex(data, data.length);
     }
 
-    public static byte[] hexToBytes(String string) {
+    @NonNull
+    public static byte[] hexToBytes(@NonNull String string) {
         int length = string.length();
         byte[] data = new byte[length / 2];
         for (int i = 0; i < length; i += 2) {
@@ -282,7 +289,7 @@ class DiffieHellman {
         return data;
     }
 
-    public static KeyPair prepareKeyPair(SharedPreferences sharedPrefs) throws GeneralSecurityException {
+    public static KeyPair prepareKeyPair(@NonNull SharedPreferences sharedPrefs) throws GeneralSecurityException {
         // Generate a keypair if it doesn't already exist
         if (sharedPrefs.contains("PublicKey")) {
             String pubKeyString = sharedPrefs.getString("PublicKey", null);

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -36,7 +37,7 @@ class PermanentNotification {
      *
      * @see #cancel(Context)
      */
-    public static void notify(final Context context, PendingIntent selfPendingIntent) {
+    public static void notify(@NonNull final Context context, PendingIntent selfPendingIntent) {
         final String ticker = "Encrypt/decrypt";
         final String title = "PrivacyLayer";
         final String text = "Encrypt/decrypt from the clipboard";
@@ -89,7 +90,7 @@ class PermanentNotification {
     }
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)
-    private static void notify(final Context context, final Notification notification) {
+    private static void notify(@NonNull final Context context, final Notification notification) {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -103,7 +104,7 @@ class PermanentNotification {
      * Cancels any notifications of this type previously shown using notify().
      */
     @TargetApi(Build.VERSION_CODES.ECLAIR)
-    public static void cancel(final Context context) {
+    public static void cancel(@NonNull final Context context) {
         final NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {

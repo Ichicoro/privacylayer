@@ -25,7 +25,7 @@ public class KeyExchange extends AppCompatActivity {
 
     private static final String TAG = "PrivacyLayer/KeyExch";
 
-    SharedPreferences sharedPrefs;
+    private SharedPreferences sharedPrefs;
 
     private KeyPair keyPair;
 

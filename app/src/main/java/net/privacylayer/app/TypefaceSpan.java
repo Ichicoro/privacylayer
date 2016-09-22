@@ -3,6 +3,7 @@ package net.privacylayer.app;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 import android.util.LruCache;
@@ -11,7 +12,8 @@ class TypefaceSpan extends MetricAffectingSpan {
     /**
      * An <code>LruCache</code> for previously loaded typefaces.
      */
-    private static LruCache<String, Typeface> sTypefaceCache =
+    @NonNull
+    private static final LruCache<String, Typeface> sTypefaceCache =
             new LruCache<>(12);
 
     private Typeface mTypeface;
@@ -19,7 +21,7 @@ class TypefaceSpan extends MetricAffectingSpan {
     /**
      * Load the {@link Typeface} and apply to a {@link }.
      */
-    public TypefaceSpan(Context context, String typefaceName) {
+    public TypefaceSpan(@NonNull Context context, String typefaceName) {
         mTypeface = sTypefaceCache.get(typefaceName);
 
         if (mTypeface == null) {
@@ -32,7 +34,7 @@ class TypefaceSpan extends MetricAffectingSpan {
     }
 
     @Override
-    public void updateMeasureState(TextPaint p) {
+    public void updateMeasureState(@NonNull TextPaint p) {
         p.setTypeface(mTypeface);
 
         // Note: This flag is required for proper typeface rendering
@@ -40,7 +42,7 @@ class TypefaceSpan extends MetricAffectingSpan {
     }
 
     @Override
-    public void updateDrawState(TextPaint tp) {
+    public void updateDrawState(@NonNull TextPaint tp) {
         tp.setTypeface(mTypeface);
 
         // Note: This flag is required for proper typeface rendering

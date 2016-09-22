@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         updateSpinner();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
                 String thisKeyName = parent.getItemAtPosition(position).toString();
                 key = keysMap.get(thisKeyName);
                 setCurrentKey(key);
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -240,11 +241,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String encryptBoxText(String text) throws Exception {
+    @NonNull
+    public String encryptBoxText(@NonNull String text) throws Exception {
         return AESPlatform.encrypt(text, key).toString();
     }
 
-    public String decryptBoxText(String text) throws Exception {
+    @NonNull
+    public String decryptBoxText(@NonNull String text) throws Exception {
         return AESPlatform.decrypt(new AESMessage(text), key);
     }
 
@@ -271,14 +274,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         updateSpinner();
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-
-
     }
-
-
 }
