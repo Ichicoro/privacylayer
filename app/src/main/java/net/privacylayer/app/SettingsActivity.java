@@ -356,7 +356,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
 
             // TODO: implement this sometime, when the keys will be migrated to the settings
-            final Context c = ctx;
+            /* final Context c = ctx;
             Preference addPasswordPref = findPreference("addPassword");
             addPasswordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -371,7 +371,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     // return true;
                     throw new RuntimeException();
                 }
-            });
+            }); */
         }
 
         @Override
